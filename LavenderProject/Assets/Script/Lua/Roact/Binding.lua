@@ -1,8 +1,8 @@
-local createSignal = require(script.Parent.createSignal)
-local Symbol = require(script.Parent.Symbol)
-local Type = require(script.Parent.Type)
+local createSignal = require "Roact.createSignal"
+local Symbol = require "Roact.Symbol"
+local Type = require "Roact.Type"
 
-local config = require(script.Parent.GlobalConfig).get()
+local config = require("Roact.GlobalConfig").get()
 
 local BindingImpl = Symbol.named("BindingImpl")
 

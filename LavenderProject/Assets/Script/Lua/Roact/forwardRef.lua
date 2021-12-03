@@ -1,8 +1,8 @@
-local assign = require(script.Parent.assign)
-local None = require(script.Parent.None)
-local Ref = require(script.Parent.PropMarkers.Ref)
+local assign = require "Roact.assign"
+local None = require "Roact.None"
+local Ref = require "Roact.PropMarkers.Ref"
 
-local config = require(script.Parent.GlobalConfig).get()
+local config = require("Roact.GlobalConfig").get()
 
 local excludeRef = {
 	[Ref] = None,

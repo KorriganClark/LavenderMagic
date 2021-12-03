@@ -1,5 +1,5 @@
 return function()
-	local Roact = require(script.Parent)
+	local Roact = require "Roact"
 
 	it("should load with all public APIs", function()
 		local publicApi = {

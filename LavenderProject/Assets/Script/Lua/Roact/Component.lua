@@ -1,11 +1,13 @@
-local assign = require(script.Parent.assign)
-local ComponentLifecyclePhase = require(script.Parent.ComponentLifecyclePhase)
-local Type = require(script.Parent.Type)
-local Symbol = require(script.Parent.Symbol)
-local invalidSetStateMessages = require(script.Parent.invalidSetStateMessages)
-local internalAssert = require(script.Parent.internalAssert)
+module("Roact.Component", package.seeall)
 
-local config = require(script.Parent.GlobalConfig).get()
+local assign = require "Roact.assign"
+local ComponentLifecyclePhase = require "Roact.ComponentLifecyclePhase"
+local Type = require "Roact.Type"
+local Symbol = require "Roact.Symbol"
+local invalidSetStateMessages = require "Roact.invalidSetStateMessages"
+local internalAssert = require "Roact.internalAssert"
+
+local config = require ("Roact.GlobalConfig").get()
 
 --[[
 	Calling setState during certain lifecycle allowed methods has the potential

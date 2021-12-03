@@ -1,5 +1,5 @@
-local Symbol = require(script.Parent.Symbol)
-local strict = require(script.Parent.strict)
+local Symbol = require "Roact.Symbol"
+local strict = require "Roact.strict"
 
 local ComponentLifecyclePhase = strict({
 	-- Component methods

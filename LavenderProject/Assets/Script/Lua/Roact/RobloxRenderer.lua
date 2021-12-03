@@ -4,16 +4,16 @@
 	renderer that does anything.
 ]]
 
-local Binding = require(script.Parent.Binding)
-local Children = require(script.Parent.PropMarkers.Children)
-local ElementKind = require(script.Parent.ElementKind)
-local SingleEventManager = require(script.Parent.SingleEventManager)
-local getDefaultInstanceProperty = require(script.Parent.getDefaultInstanceProperty)
-local Ref = require(script.Parent.PropMarkers.Ref)
-local Type = require(script.Parent.Type)
-local internalAssert = require(script.Parent.internalAssert)
+local Binding = require "Roact.Binding"
+local Children = require "Roact.PropMarkers.Children"
+local ElementKind = require "Roact.ElementKind"
+local SingleEventManager = require "Roact.SingleEventManager"
+local getDefaultInstanceProperty = require "Roact.getDefaultInstanceProperty"
+local Ref = require "Roact.PropMarkers.Ref"
+local Type = require "Roact.Type"
+local internalAssert = require "Roact.internalAssert"
 
-local config = require(script.Parent.GlobalConfig).get()
+local config = require("Roact.GlobalConfig").get()
 
 local applyPropsError = [[
 Error applying props:

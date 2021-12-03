@@ -1,5 +1,5 @@
-local Type = require(script.Parent.Type)
-local Symbol = require(script.Parent.Symbol)
+local Type = require "Roact.Type"
+local Symbol = require "Roact.Symbol"
 
 local function noop()
 	return nil
