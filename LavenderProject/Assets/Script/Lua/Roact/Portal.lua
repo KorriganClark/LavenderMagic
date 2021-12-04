@@ -1,4 +1,4 @@
-local Symbol = require "Roact.Symbol"
+local Symbol = require "Roact/Symbol"
 
 local Portal = Symbol.named("Portal")
 

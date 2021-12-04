@@ -6,7 +6,7 @@
 	This should only be used in tests.
 ]]
 
-local assertDeepEqual = require "Roact.assertDeepEqual"
+local assertDeepEqual = require "Roact/assertDeepEqual"
 
 local function createSpy(inner)
 	local self = {}

@@ -7,12 +7,12 @@
 ]]
 
 local function deepEqual(a, b)
-	if typeof(a) ~= typeof(b) then
-		local message = ("{1} is of type %s, but {2} is of type %s"):format(typeof(a), typeof(b))
+	if type(a) ~= type(b) then
+		local message = ("{1} is of type %s, but {2} is of type %s"):format(type(a), type(b))
 		return false, message
 	end
 
-	if typeof(a) == "table" then
+	if type(a) == "table" then
 		local visitedKeys = {}
 
 		for key, value in pairs(a) do

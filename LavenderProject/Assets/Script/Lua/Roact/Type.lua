@@ -9,10 +9,10 @@
 		}
 ]]
 
-local Symbol = require "Roact.Symbol"
-local strict = require "Roact.strict"
+local Symbol = require "Roact/Symbol"
+local strict = require "Roact/strict"
 
-local Type = newproxy(true)
+local Type = {}--newproxy(true)
 
 local TypeInternal = {}
 
@@ -30,12 +30,14 @@ addType("VirtualNode")
 addType("VirtualTree")
 
 function TypeInternal.of(value)
-	if typeof(value) ~= "table" then
+	if type(value) ~= "table" then
 		return nil
 	end
 
 	return value[Type]
 end
+
+setmetatable(Type, {})
 
 getmetatable(Type).__index = TypeInternal
 

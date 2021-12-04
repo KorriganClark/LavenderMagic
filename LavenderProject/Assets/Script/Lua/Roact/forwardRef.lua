@@ -1,8 +1,8 @@
-local assign = require "Roact.assign"
-local None = require "Roact.None"
-local Ref = require "Roact.PropMarkers.Ref"
+local assign = require "Roact/assign"
+local None = require "Roact/None"
+local Ref = require "Roact/PropMarkers/Ref"
 
-local config = require("Roact.GlobalConfig").get()
+local config = require("Roact/GlobalConfig").get()
 
 local excludeRef = {
 	[Ref] = None,
@@ -14,7 +14,7 @@ local excludeRef = {
 ]]
 local function forwardRef(render)
 	if config.typeChecks then
-		assert(typeof(render) == "function", "Expected arg #1 to be a function")
+		assert(type(render) == "function", "Expected arg #1 to be a function")
 	end
 
 	return function(props)

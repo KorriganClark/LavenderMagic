@@ -8,11 +8,11 @@
 		}
 ]]
 
-local Symbol = require "Roact.Symbol"
-local strict = require "Roact.strict"
-local Portal = require "Roact.Portal"
+local Symbol = require "Roact/Symbol"
+local strict = require "Roact/strict"
+local Portal = require "Roact/Portal"
 
-local ElementKind = newproxy(true)
+local ElementKind = {}--newproxy(true)
 
 local ElementKindInternal = {
 	Portal = Symbol.named("Portal"),
@@ -23,7 +23,7 @@ local ElementKindInternal = {
 }
 
 function ElementKindInternal.of(value)
-	if typeof(value) ~= "table" then
+	if type(value) ~= "table" then
 		return nil
 	end
 
@@ -40,9 +40,11 @@ function ElementKindInternal.fromComponent(component)
 	if component == Portal then
 		return ElementKind.Portal
 	else
-		return componentTypesToKinds[typeof(component)]
+		return componentTypesToKinds[type(component)]
 	end
 end
+
+setmetatable(ElementKind, {})
 
 getmetatable(ElementKind).__index = ElementKindInternal
 

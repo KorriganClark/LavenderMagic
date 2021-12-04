@@ -1,4 +1,4 @@
-local None = require "Roact.None"
+local None = require "Roact/None"
 
 --[[
 	Merges values from zero or more tables onto a target table. If a value is

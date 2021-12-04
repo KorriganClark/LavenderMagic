@@ -4,16 +4,16 @@
 	renderer that does anything.
 ]]
 
-local Binding = require "Roact.Binding"
-local Children = require "Roact.PropMarkers.Children"
-local ElementKind = require "Roact.ElementKind"
-local SingleEventManager = require "Roact.SingleEventManager"
-local getDefaultInstanceProperty = require "Roact.getDefaultInstanceProperty"
-local Ref = require "Roact.PropMarkers.Ref"
-local Type = require "Roact.Type"
-local internalAssert = require "Roact.internalAssert"
+local Binding = require "Roact/Binding"
+local Children = require "Roact/PropMarkers/Children"
+local ElementKind = require "Roact/ElementKind"
+local SingleEventManager = require "Roact/SingleEventManager"
+local getDefaultInstanceProperty = require "Roact/getDefaultInstanceProperty"
+local Ref = require "Roact/PropMarkers/Ref"
+local Type = require "Roact/Type"
+local internalAssert = require "Roact/internalAssert"
 
-local config = require("Roact.GlobalConfig").get()
+local config = require("Roact/GlobalConfig").get()
 
 local applyPropsError = [[
 Error applying props:
@@ -38,13 +38,13 @@ local function applyRef(ref, newHostObject)
 		return
 	end
 
-	if typeof(ref) == "function" then
+	if type(ref) == "function" then
 		ref(newHostObject)
 	elseif Type.of(ref) == Type.Binding then
 		Binding.update(ref, newHostObject)
 	else
 		-- TODO (#197): Better error message
-		error(("Invalid ref: Expected type Binding but got %s"):format(typeof(ref)))
+		error(("Invalid ref: Expected type Binding but got %s"):format(type(ref)))
 	end
 end
 
@@ -172,7 +172,7 @@ end
 local RobloxRenderer = {}
 
 function RobloxRenderer.isHostObject(target)
-	return typeof(target) == "Instance"
+	return type(target) == "Instance"
 end
 
 function RobloxRenderer.mountHostNode(reconciler, virtualNode)

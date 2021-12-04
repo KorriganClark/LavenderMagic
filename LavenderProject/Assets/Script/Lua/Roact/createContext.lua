@@ -1,8 +1,8 @@
-local Symbol = require "Roact.Symbol"
-local createFragment = require "Roact.createFragment"
-local createSignal = require "Roact.createSignal"
-local Children = require "Roact.PropMarkers.Children"
-local Component = require "Roact.Component"
+local Symbol = require "Roact/Symbol"
+local createFragment = require "Roact/createFragment"
+local createSignal = require "Roact/createSignal"
+local Children = require "Roact/PropMarkers/Children"
+local Component = require "Roact/Component"
 
 --[[
 	Construct the value that is assigned to Roact's context storage.

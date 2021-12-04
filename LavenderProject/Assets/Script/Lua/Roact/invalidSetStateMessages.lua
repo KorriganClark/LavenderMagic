@@ -5,7 +5,7 @@
 	The indentation may seem odd, but it's necessary to avoid introducing extra
 	whitespace into the error messages themselves.
 ]]
-local ComponentLifecyclePhase = require "Roact.ComponentLifecyclePhase"
+local ComponentLifecyclePhase = require "Roact/ComponentLifecyclePhase"
 
 local invalidSetStateMessages = {}
 

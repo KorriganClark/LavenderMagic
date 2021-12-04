@@ -36,18 +36,18 @@ return function()
 
 		for key, valueType in pairs(publicApi) do
 			local success
-			if typeof(valueType) == "string" then
-				success = typeof(Roact[key]) == valueType
+			if type(valueType) == "string" then
+				success = type(Roact[key]) == valueType
 			else
 				success = Roact[key] ~= nil
 			end
 
 			if not success then
-				local existence = typeof(valueType) == "boolean" and "present" or "of type " .. valueType
+				local existence = type(valueType) == "boolean" and "present" or "of type " .. valueType
 				local message = ("Expected public API member %q to be %s, but instead it was of type %s"):format(
 					tostring(key),
 					existence,
-					typeof(Roact[key])
+					type(Roact[key])
 				)
 
 				error(message)

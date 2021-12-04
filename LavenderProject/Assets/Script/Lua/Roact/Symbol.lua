@@ -17,15 +17,18 @@ local Symbol = {}
 function Symbol.named(name)
 	assert(type(name) == "string", "Symbols must be created using a string name!")
 
-	local self = newproxy(true)
+	local res = {}--newproxy(true)
 
 	local wrappedName = ("Symbol(%s)"):format(name)
-
+	setmetatable(res,{__tostring = function()
+		return wrappedName
+	end})
+	--[[
 	getmetatable(self).__tostring = function()
 		return wrappedName
-	end
+	end--]]
 
-	return self
+	return res
 end
 
 return Symbol

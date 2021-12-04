@@ -8,7 +8,7 @@
 	of an object without constructing an instance of it.
 ]]
 
-local Symbol = require "Roact.Symbol"
+local Symbol = require "Roact/Symbol"
 
 local Nil = Symbol.named("Nil")
 local _cachedPropertyValues = {}

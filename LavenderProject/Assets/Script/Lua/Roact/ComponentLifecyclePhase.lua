@@ -1,5 +1,5 @@
-local Symbol = require "Roact.Symbol"
-local strict = require "Roact.strict"
+local Symbol = require "Roact/Symbol"
+local strict = require "Roact/strict"
 
 local ComponentLifecyclePhase = strict({
 	-- Component methods

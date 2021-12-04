@@ -2,7 +2,7 @@
 	A manager for a single host virtual node's connected events.
 ]]
 
-local Logging = require "Roact.Logging"
+local Logging = require "Roact/Logging"
 
 local CHANGE_PREFIX = "Change."
 

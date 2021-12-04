@@ -3,7 +3,7 @@
 	resulting component to be pure.
 ]]
 
-local Component = require "Roact.Component"
+local Component = require "Roact/Component"
 
 local PureComponent = Component:extend("PureComponent")
 
