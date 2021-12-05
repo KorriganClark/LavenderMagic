@@ -18,6 +18,12 @@ local reconcilerCompat = createReconcilerCompat(robloxReconciler)
 
 local moduleName = "Roact"
 
+---@class Roact
+---@field createElement function
+---@field createFragment function
+---
+
+---@type Roact
 local Roact = strict({
     ---组件
     Component = require "Roact/Component",

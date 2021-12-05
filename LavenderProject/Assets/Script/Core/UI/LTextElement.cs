@@ -15,15 +15,14 @@ namespace Lavender.UI
 
         public static GameObject NewElement()
         {
-            GameObject go = new GameObject("x_Text", typeof(Text));
+            GameObject go = new GameObject("new_Text", typeof(Text));
             var text = go.GetComponent<Text>();
             text.raycastTarget = false;
             text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");//AssetDatabase.LoadAssetAtPath<Font>("Assets/Arts/Fonts/zh_cn.TTF");   // 默认字体
             text.text = "New Text";
             go.transform.SetParent(LUIMgr.SecurityCheck().transform);
-            //Selection.activeGameObject = go;
-
-            //go.AddComponent<Outline>();   // 默认添加 附加组件
+            go.transform.localPosition = new Vector3(0, 0, 0);
+            
             return go;
         }
     }

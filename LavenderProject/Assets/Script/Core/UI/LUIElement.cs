@@ -9,7 +9,8 @@ namespace Lavender.UI
     public enum ElementType
     {
         Text,
-        Image
+        Image,
+        Button
     }
 
     public static class LUIElement
@@ -23,7 +24,10 @@ namespace Lavender.UI
             {
                 case ElementType.Text:
                     return LTextElement.NewElement();
-                case ElementType.Image:break;
+                case ElementType.Image:
+                    return LImageElement.NewElement();
+                case ElementType.Button:
+                    return LButtonElement.NewElement();
                 default: break;
             }
             return null;

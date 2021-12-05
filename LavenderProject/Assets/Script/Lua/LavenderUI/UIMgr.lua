@@ -13,9 +13,16 @@ end
 
 
 function UIMgr:ActiveUI()
+
+    local testUI = Roact.createElement("Button")
+
+    --[[
     local testUI = Roact.createElement("Text",{},{
-        testChild = Roact.createElement("Text")
-    })
+        testChild = Roact.createElement("Text"),
+        testImage = Roact.createElement("Image",{},{
+            testText = Roact.createElement("Text")
+        })
+    })--]]
     Roact.mount(testUI, UIRoot)
     --CS.Lavender.UI.LUIElement.NewElement(ElementType.Text)
 end

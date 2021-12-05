@@ -1,4 +1,5 @@
-Roact =require("Roact/init")
+---@type Roact
+Roact = require("Roact/init")
 
 local LuaGameInstance = {}
 local moduleName = "LuaGameInstance";

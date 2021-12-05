@@ -232,7 +232,7 @@ function RobloxRenderer.mountHostNode(reconciler, virtualNode)
 	if virtualNode.eventManager ~= nil then
 	virtualNode.eventManager:resume()
 	end
-	end
+end
 
 function RobloxRenderer.unmountHostNode(reconciler, virtualNode)
 	local element = virtualNode.currentElement

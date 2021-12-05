@@ -12,6 +12,7 @@ namespace Lavender.UI
             {
                 UIRoot = new GameObject("UIRoot");
                 UIRoot.transform.SetParent(SecurityCheck().transform);
+                UIRoot.transform.localPosition = new Vector3(0, 0, 0);
             }
             return UIRoot;
         }
