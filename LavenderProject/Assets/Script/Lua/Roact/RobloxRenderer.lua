@@ -222,7 +222,7 @@ function RobloxRenderer.mountHostNode(reconciler, virtualNode)
 	end
 
 	if hostParent ~= nil then
-		instance.transform.parent = hostParent.transform
+		instance.transform:SetParent(hostParent.transform)
 	end
 
 	virtualNode.hostObject = instance
