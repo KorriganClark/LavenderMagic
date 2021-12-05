@@ -96,4 +96,15 @@ function ElementUtils.getElementByKey(elements, hostKey)
 	error("Invalid elements")
 end
 
+local ElementType = {
+	Text = 0,
+	Image = 1
+}
+
+---@param elementType string
+---@return
+function ElementUtils.newElementInstance(elementType)
+	return CS.Lavender.UI.LUIElement.NewElement(ElementType[elementType])
+end
+
 return ElementUtils

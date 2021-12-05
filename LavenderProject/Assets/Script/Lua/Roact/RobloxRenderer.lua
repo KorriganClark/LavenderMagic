@@ -7,6 +7,7 @@
 local Binding = require "Roact/Binding"
 local Children = require "Roact/PropMarkers/Children"
 local ElementKind = require "Roact/ElementKind"
+local ElementUtils = require "Roact/ElementUtils"
 local SingleEventManager = require "Roact/SingleEventManager"
 local getDefaultInstanceProperty = require "Roact/getDefaultInstanceProperty"
 local Ref = require "Roact/PropMarkers/Ref"
@@ -188,7 +189,9 @@ function RobloxRenderer.mountHostNode(reconciler, virtualNode)
 		assert(element.props.Parent == nil, "Parent can not be specified as a prop to a host component in Roact.")
 	end
 
-	local instance = Instance.new(element.component)
+	--local instance = Instance.new(element.component)
+	local instance = ElementUtils.newElementInstance(element.component)
+
 	virtualNode.hostObject = instance
 
 	local success, errorMessage = xpcall(function()
@@ -206,7 +209,11 @@ function RobloxRenderer.mountHostNode(reconciler, virtualNode)
 		error(fullMessage, 0)
 	end
 
-	instance.Name = tostring(hostKey)
+	if type(hostKey) == "string" then
+		instance.name = hostKey
+	else
+		instance.name = tostring(hostKey)
+	end
 
 	local children = element.props[Children]
 
@@ -214,15 +221,18 @@ function RobloxRenderer.mountHostNode(reconciler, virtualNode)
 		reconciler.updateVirtualNodeWithChildren(virtualNode, virtualNode.hostObject, children)
 	end
 
-	instance.Parent = hostParent
+	if hostParent ~= nil then
+		instance.transform.parent = hostParent.transform
+	end
+
 	virtualNode.hostObject = instance
 
 	applyRef(element.props[Ref], instance)
 
 	if virtualNode.eventManager ~= nil then
-		virtualNode.eventManager:resume()
+	virtualNode.eventManager:resume()
 	end
-end
+	end
 
 function RobloxRenderer.unmountHostNode(reconciler, virtualNode)
 	local element = virtualNode.currentElement

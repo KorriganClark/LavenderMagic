@@ -5,7 +5,7 @@ using UnityEngine;
 public class LavenderGameMode : MonoBehaviour
 {
 
-    LuaClient luaState = new LuaClient();
+    public static LuaClient luaState = new LuaClient();
     // Start is called before the first frame update
     void Start()
     {

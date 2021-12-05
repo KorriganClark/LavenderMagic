@@ -37,4 +37,9 @@ public class LuaClient
 
         return byArrayReturn;
     }
+
+    public void Excute(string command)
+    {
+        luaEnv.DoString(command);
+    }
 }

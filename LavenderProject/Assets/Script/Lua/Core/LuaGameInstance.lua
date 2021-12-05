@@ -1,10 +1,11 @@
-require("Roact/init")
+Roact =require("Roact/init")
 
 local LuaGameInstance = {}
 local moduleName = "LuaGameInstance";
 _G[moduleName] = LuaGameInstance;
 function LuaGameInstance.Init()
-    
+    UIMgr = require("LavenderUI/UIMgr")
+
     --CS.UnityEngine.Debug.Log("lua init")
 end
 
