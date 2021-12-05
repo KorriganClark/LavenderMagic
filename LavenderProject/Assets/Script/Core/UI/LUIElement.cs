@@ -29,25 +29,7 @@ namespace Lavender.UI
             return null;
         }
 
-        public static GameObject SecurityCheck()
-        {
-            GameObject canvas;
-            var cc = Object.FindObjectOfType<Canvas>();
-            if (!cc)
-            {
-                canvas = new GameObject("_Canvas", typeof(Canvas));
-            }
-            else
-            {
-                canvas = cc.gameObject;
-            }
-            if (!Object.FindObjectOfType<EventSystem>())
-            {
-                GameObject eventSystem = new GameObject("_EventSystem", typeof(EventSystem));
-            }
-
-            return canvas;
-        }
+        
     }
 }
 

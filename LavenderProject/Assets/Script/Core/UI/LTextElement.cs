@@ -20,7 +20,7 @@ namespace Lavender.UI
             text.raycastTarget = false;
             text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");//AssetDatabase.LoadAssetAtPath<Font>("Assets/Arts/Fonts/zh_cn.TTF");   // 默认字体
             text.text = "New Text";
-            go.transform.SetParent(LUIElement.SecurityCheck().transform);
+            go.transform.SetParent(LUIMgr.SecurityCheck().transform);
             //Selection.activeGameObject = go;
 
             //go.AddComponent<Outline>();   // 默认添加 附加组件

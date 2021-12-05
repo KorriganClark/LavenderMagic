@@ -4,15 +4,19 @@
 --- DateTime: 2021/12/5 15:46
 ---
 local UIMgr = {}
+local UIRoot
 
+function UIMgr:Init()
+    UIRoot = CS.Lavender.UI.LUIMgr.GetUIRoot()
 
+end
 
 
 function UIMgr:ActiveUI()
     local testUI = Roact.createElement("Text",{},{
         testChild = Roact.createElement("Text")
     })
-    Roact.mount(testUI)
+    Roact.mount(testUI, UIRoot)
     --CS.Lavender.UI.LUIElement.NewElement(ElementType.Text)
 end
 

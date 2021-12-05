@@ -5,7 +5,7 @@ local moduleName = "LuaGameInstance";
 _G[moduleName] = LuaGameInstance;
 function LuaGameInstance.Init()
     UIMgr = require("LavenderUI/UIMgr")
-
+    UIMgr:Init()
     --CS.UnityEngine.Debug.Log("lua init")
 end
 
