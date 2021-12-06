@@ -12,9 +12,11 @@ function UIMgr:Init()
 end
 
 
-function UIMgr:ActiveUI()
+function UIMgr:ActiveUI(windowName)
 
-    local testUI = Roact.createElement("Button")
+    local window = require("LavenderUI/Windows/" .. windowName)
+    local res = Roact.createElement(window)
+    --local testUI = Roact.createElement("Button")
 
     --[[
     local testUI = Roact.createElement("Text",{},{
@@ -23,7 +25,7 @@ function UIMgr:ActiveUI()
             testText = Roact.createElement("Text")
         })
     })--]]
-    Roact.mount(testUI, UIRoot)
+    Roact.mount(res, UIRoot)
     --CS.Lavender.UI.LUIElement.NewElement(ElementType.Text)
 end
 

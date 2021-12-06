@@ -18,7 +18,7 @@ namespace Lavender.UI
             GameObject go = new GameObject("new_Text", typeof(Text));
             var text = go.GetComponent<Text>();
             text.raycastTarget = false;
-            text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");//AssetDatabase.LoadAssetAtPath<Font>("Assets/Arts/Fonts/zh_cn.TTF");   // 默认字体
+            text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
             text.text = "New Text";
             go.transform.SetParent(LUIMgr.SecurityCheck().transform);
             go.transform.localPosition = new Vector3(0, 0, 0);

@@ -6,7 +6,7 @@ using XLua;
 
 public class LuaClient
 {
-    LuaEnv luaEnv;
+    static LuaEnv luaEnv;
     public void Init()
     {
         luaEnv = new LuaEnv();
@@ -38,7 +38,7 @@ public class LuaClient
         return byArrayReturn;
     }
 
-    public void Excute(string command)
+    public static void Excute(string command)
     {
         luaEnv.DoString(command);
     }

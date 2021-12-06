@@ -24,7 +24,7 @@ public class ButtonTest : MonoBehaviour
 
     public void OnClick()
     {
-        LavenderGameMode.luaState.Excute("UIMgr:ActiveUI()");
+        LuaClient.Excute("UIMgr:ActiveUI()");
         /*
         var canvasObj = SecurityCheck();
 

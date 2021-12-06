@@ -19,7 +19,6 @@ namespace Lavender.UI
         [LuaCallCSharp]
         public static GameObject NewElement(ElementType type)
         {
-            //Debug.Log("new Element!!");
             switch (type)
             {
                 case ElementType.Text:
