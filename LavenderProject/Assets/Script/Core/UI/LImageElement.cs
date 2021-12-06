@@ -14,8 +14,13 @@ namespace Lavender.UI
             image.raycastTarget = false;
             go.transform.SetParent(LUIMgr.SecurityCheck().transform);
             go.transform.localPosition = new Vector3(0, 0, 0);
-
+            LUIMgr.SetElementType(go, ElementType.Image);
             return go;
+        }
+
+        public static void SetProperty(GameObject go)
+        {
+
         }
     }
 }

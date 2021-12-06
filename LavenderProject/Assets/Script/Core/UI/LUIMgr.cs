@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Lavender.UI
@@ -6,6 +7,23 @@ namespace Lavender.UI
     public static class LUIMgr
     {
         public static GameObject UIRoot;
+
+        private static Dictionary<GameObject, ElementType> instanceElementType = new Dictionary<GameObject, ElementType>();
+        public static ElementType GetElementType(GameObject instance)
+        {
+            ElementType res;
+            if(instanceElementType.TryGetValue(instance, out res))
+            {
+                return res;
+            }
+            return ElementType.Null;
+        }
+
+        public static void SetElementType(GameObject instance, ElementType type)
+        {
+            instanceElementType.Add(instance, type);
+        }
+
         public static GameObject GetUIRoot()
         {
             if(UIRoot == null)

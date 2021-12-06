@@ -15,8 +15,14 @@ end
 function BagItem:render()
     local ItemId = self.state.ItemId
 
-    return Roact.createElement("Image",{},{
-        Roact.createElement("Text")
+    return Roact.createElement("Image",{
+
+    },{
+        Roact.createElement("Text",{
+            size = {x = 100, y = 100},
+            text = "Item!!!",
+            color = CS.UnityEngine.Color.black
+        })
     })
 end
 

@@ -99,9 +99,10 @@ end
 
 ---用于对应C#中的Element类型
 local ElementType = {
-	Text = 0,
-	Image = 1,
-	Button = 2
+	Null = 0,
+	Text = 1,
+	Image = 2,
+	Button = 3
 }
 
 ---@param elementType string

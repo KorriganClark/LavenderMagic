@@ -9,7 +9,7 @@ local BagItem = require("LavenderUI/Components/BagItem")
 
 function BagWindow:init()
     self:setState({
-        bagSlot = 5
+        bagSlot = 1
     })
 end
 

@@ -16,17 +16,9 @@ function UIMgr:ActiveUI(windowName)
 
     local window = require("LavenderUI/Windows/" .. windowName)
     local res = Roact.createElement(window)
-    --local testUI = Roact.createElement("Button")
 
-    --[[
-    local testUI = Roact.createElement("Text",{},{
-        testChild = Roact.createElement("Text"),
-        testImage = Roact.createElement("Image",{},{
-            testText = Roact.createElement("Text")
-        })
-    })--]]
     Roact.mount(res, UIRoot)
-    --CS.Lavender.UI.LUIElement.NewElement(ElementType.Text)
+
 end
 
 

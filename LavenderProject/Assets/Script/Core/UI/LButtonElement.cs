@@ -16,7 +16,13 @@ namespace Lavender.UI
             rectTran.sizeDelta = new Vector2(160, 30);
             go.transform.SetParent(LUIMgr.SecurityCheck().transform);
             go.transform.localPosition = new Vector3(0, 0, 0);
+            LUIMgr.SetElementType(go, ElementType.Button);
             return go;
+        }
+
+        public static void SetProperty(GameObject go)
+        {
+
         }
     }
 }
