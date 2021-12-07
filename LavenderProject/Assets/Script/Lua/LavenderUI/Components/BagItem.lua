@@ -18,7 +18,7 @@ function BagItem:render()
     return Roact.createElement("Image",{
 
     },{
-        Roact.createElement("Text",{
+        Text = Roact.createElement("Text",{
             size = {x = 100, y = 100},
             text = "Item!!!",
             color = CS.UnityEngine.Color.black

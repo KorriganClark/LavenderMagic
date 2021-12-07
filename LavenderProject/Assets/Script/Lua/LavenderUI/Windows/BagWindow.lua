@@ -17,7 +17,7 @@ function BagWindow:render()
     local bagSlot = self.state.bagSlot
     local itemList = {}
     for i = 1, bagSlot do
-        itemList[i] = Roact.createElement(BagItem)
+        itemList["Item_" .. i] = Roact.createElement(BagItem)
     end
     return Roact.createElement("Image",{},itemList)
 end
