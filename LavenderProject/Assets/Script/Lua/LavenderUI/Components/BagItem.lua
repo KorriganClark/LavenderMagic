@@ -16,12 +16,15 @@ function BagItem:render()
     local ItemId = self.state.ItemId
 
     return Roact.createElement("Image",{
-
+        anchorMin = {x = 0,y = 1},
+        anchorMax = {x = 0,y = 1},
+        position = self.props.position
     },{
         Text = Roact.createElement("Text",{
             size = {x = 100, y = 100},
             text = "Item!!!",
-            color = CS.UnityEngine.Color.black
+            color = CS.UnityEngine.Color.black,
+
         })
     })
 end

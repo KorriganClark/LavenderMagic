@@ -18,9 +18,17 @@ namespace Lavender.UI
             return go;
         }
 
-        public static void SetProperty(GameObject go)
+        public static void SetProperty(GameObject go,string key,object prop)
         {
+            var imageComp = go.GetComponent<Image>();
+            switch (key)
+            {
+                case "sprite":break;
+                case "color":
+                    imageComp.color = (Color)prop;
+                    break;
 
+            }
         }
     }
 }

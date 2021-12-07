@@ -9,9 +9,9 @@ namespace Lavender.UI
 
         public static GameObject NewElement()
         {
-            GameObject go = new GameObject("new_Button", typeof(Button), typeof(Image));
-            var image = go.GetComponent<Image>();
-            image.raycastTarget = false;
+            GameObject go = new GameObject("new_Button", typeof(Button));
+            //var image = go.GetComponent<Image>();
+            //image.raycastTarget = false;
             RectTransform rectTran = (RectTransform)go.transform;
             rectTran.sizeDelta = new Vector2(160, 30);
             go.transform.SetParent(LUIMgr.SecurityCheck().transform);
@@ -20,7 +20,7 @@ namespace Lavender.UI
             return go;
         }
 
-        public static void SetProperty(GameObject go)
+        public static void SetProperty(GameObject go, string key, object prop)
         {
 
         }
