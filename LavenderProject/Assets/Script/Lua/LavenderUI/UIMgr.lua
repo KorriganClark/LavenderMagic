@@ -14,7 +14,7 @@ end
 
 function UIMgr:ActiveUI(windowName)
 
-    local window = require("LavenderUI/Windows/" .. windowName)
+    local window = require("LavenderUI/Components/" .. windowName)
     local res = Roact.createElement(window)
 
     Roact.mount(res, UIRoot)

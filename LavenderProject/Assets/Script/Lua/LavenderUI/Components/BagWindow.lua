@@ -14,6 +14,8 @@ function BagWindow:init()
 end
 
 function BagWindow:render()
+    self.outTest("resTable")
+    CS.UnityEngine.Debug.Log(self.resTable[1])
     local bagSlot = self.state.bagSlot
     local itemList = {}
     for i = 1, bagSlot do
@@ -25,6 +27,10 @@ function BagWindow:render()
         color = CS.UnityEngine.Color.black,
         size = {x = 800, y = 500}
     },itemList)
+end
+
+function BagWindow:outTest(outTable)
+    self[outTable] = {1}
 end
 
 return BagWindow

@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="FilePathAttribute.cs" company="Sirenix IVS">
 // Copyright (c) Sirenix IVS. All rights reserved.
 // </copyright>
@@ -9,57 +9,58 @@ namespace Sirenix.OdinInspector
 #pragma warning disable
 
 	using System;
-	
-	/// <summary>
-	/// <para>FilePath is used on string properties, and provides an interface for file paths.</para>
-	/// </summary>
-	/// <example>
-	/// <para>The following example demonstrates how FilePath is used.</para>
-	/// <code>
-	///	public class FilePathExamples : MonoBehaviour
-	///	{
-	///		// By default, FilePath provides a path relative to the Unity project.
-	///		[FilePath]
-	///		public string UnityProjectPath;
-	///	
-	///		// It is possible to provide custom parent path. Parent paths can be relative to the Unity project, or absolute.
-	///		[FilePath(ParentFolder = "Assets/Plugins/Sirenix")]
-	///		public string RelativeToParentPath;
-	///	
-	///		// Using parent path, FilePath can also provide a path relative to a resources folder.
-	///		[FilePath(ParentFolder = "Assets/Resources")]
-	///		public string ResourcePath;
-	///	
-	///		// Provide a comma seperated list of allowed extensions. Dots are optional.
-	///		[FilePath(Extensions = "cs")]
-	///		public string ScriptFiles;
-	///	
-	///		// By setting AbsolutePath to true, the FilePath will provide an absolute path instead.
-	///		[FilePath(AbsolutePath = true)]
-	///		[BoxGroup("Conditions")]
-	///		public string AbsolutePath;
-	///	
-	///		// FilePath can also be configured to show an error, if the provided path is invalid.
-	///		[FilePath(RequireValidPath = true)]
-	///		public string ValidPath;
-	///	
-	///		// By default, FilePath will enforce the use of forward slashes. It can also be configured to use backslashes instead.
-	///		[FilePath(UseBackslashes = true)]
-	///		public string Backslashes;
-	///	
-	///		// FilePath also supports member references with the $ symbol.
-	///		[FilePath(ParentFolder = "$DynamicParent", Extensions = "$DynamicExtensions")]
-	///		public string DynamicFilePath;
-	///	
-	///		public string DynamicParent = "Assets/Plugin/Sirenix";
-	///	
-	///		public string DynamicExtensions = "cs, unity, jpg";
-	///	}
-	/// </code>
-	/// </example>
-	/// <seealso cref="FolderPathAttribute"/>
-	/// <seealso cref="DisplayAsStringAttribute"/>
-	[AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
+    using System.IO;
+
+    /// <summary>
+    /// <para>FilePath is used on string properties, and provides an interface for file paths.</para>
+    /// </summary>
+    /// <example>
+    /// <para>The following example demonstrates how FilePath is used.</para>
+    /// <code>
+    ///	public class FilePathExamples : MonoBehaviour
+    ///	{
+    ///		// By default, FilePath provides a path relative to the Unity project.
+    ///		[FilePath]
+    ///		public string UnityProjectPath;
+    ///	
+    ///		// It is possible to provide custom parent path. Parent paths can be relative to the Unity project, or absolute.
+    ///		[FilePath(ParentFolder = "Assets/Plugins/Sirenix")]
+    ///		public string RelativeToParentPath;
+    ///	
+    ///		// Using parent path, FilePath can also provide a path relative to a resources folder.
+    ///		[FilePath(ParentFolder = "Assets/Resources")]
+    ///		public string ResourcePath;
+    ///	
+    ///		// Provide a comma seperated list of allowed extensions. Dots are optional.
+    ///		[FilePath(Extensions = "cs")]
+    ///		public string ScriptFiles;
+    ///	
+    ///		// By setting AbsolutePath to true, the FilePath will provide an absolute path instead.
+    ///		[FilePath(AbsolutePath = true)]
+    ///		[BoxGroup("Conditions")]
+    ///		public string AbsolutePath;
+    ///	
+    ///		// FilePath can also be configured to show an error, if the provided path is invalid.
+    ///		[FilePath(RequireValidPath = true)]
+    ///		public string ValidPath;
+    ///	
+    ///		// By default, FilePath will enforce the use of forward slashes. It can also be configured to use backslashes instead.
+    ///		[FilePath(UseBackslashes = true)]
+    ///		public string Backslashes;
+    ///	
+    ///		// FilePath also supports member references with the $ symbol.
+    ///		[FilePath(ParentFolder = "$DynamicParent", Extensions = "$DynamicExtensions")]
+    ///		public string DynamicFilePath;
+    ///	
+    ///		public string DynamicParent = "Assets/Plugin/Sirenix";
+    ///	
+    ///		public string DynamicExtensions = "cs, unity, jpg";
+    ///	}
+    /// </code>
+    /// </example>
+    /// <seealso cref="FolderPathAttribute"/>
+    /// <seealso cref="DisplayAsStringAttribute"/>
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
 	public sealed class FilePathAttribute : Attribute
 	{
@@ -101,5 +102,10 @@ namespace Sirenix.OdinInspector
         /// </summary>
         [Obsolete("Add a ReadOnly attribute to the property instead.", true)]
         public bool ReadOnly { get; set; }
+
+        public static TextReader OpenText(string prefabPath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
