@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lavender.Lua;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using static Lavender.UI.LUITree;
 
 namespace Lavender.UI
 {
@@ -47,6 +49,13 @@ namespace Lavender.UI
                     textComp.color = (Color)prop;
                     break;
             }
+        }
+
+        public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
+        {
+            var text = (UINodeTextPart)node.ScriptInstance;
+            builder.Append(nextLine).Append("text = ").Append($"\"{text.TextString}\",");
+            builder.Append(nextLine).Append("color = ").Append($"{text.TextColor},");
         }
     }
 }

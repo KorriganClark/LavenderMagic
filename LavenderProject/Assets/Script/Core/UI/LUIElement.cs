@@ -1,8 +1,12 @@
-﻿using System.Collections;
+﻿using Lavender.Lua;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using XLua;
+using static Lavender.UI.LUITree;
 
 namespace Lavender.UI
 {
@@ -14,8 +18,11 @@ namespace Lavender.UI
         Button
     }
 
+    
+
     public static class LUIElement
     {
+        public static string[] elementTypeString = { "Null", "Text" ,"Image", "Button"};
         //public ElementType elementType;
         [LuaCallCSharp]
         public static GameObject NewElement(ElementType type)
@@ -57,14 +64,12 @@ namespace Lavender.UI
                     var tableAnchorMin = (LuaTable)prop;
                     var vectvalAnchorMin = new Vector2(tableAnchorMin.Get<float>("x"), tableAnchorMin.Get<float>("y"));
                     ((RectTransform)go.transform).anchorMin = vectvalAnchorMin;
-                    //((RectTransform)go.transform).anchoredPosition = localPositionin;
                     return;
                 case "anchorMax":
                     var localPositionax = new Vector2(((RectTransform)go.transform).anchoredPosition.x, ((RectTransform)go.transform).anchoredPosition.y);
                     var tableAnchorMax = (LuaTable)prop;
                     var vectvalAnchorMax = new Vector2(tableAnchorMax.Get<float>("x"), tableAnchorMax.Get<float>("y"));
                     ((RectTransform)go.transform).anchorMax = vectvalAnchorMax;
-                    //((RectTransform)go.transform).anchoredPosition = localPositionax;
                     return;
                 case "position":
                     var tablePos = (LuaTable)prop;
@@ -89,7 +94,20 @@ namespace Lavender.UI
             }
         }
 
-        
+        public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
+        {
+            switch (node.NodeType)
+            {
+                case ElementType.Text:
+                    LTextElement.GenLuaProperty(node, builder, nextLine); break;
+                case ElementType.Image:
+                    LImageElement.GenLuaProperty(node, builder, nextLine); break;
+                case ElementType.Button:
+                    //LButtonElement.GenLuaProperty(node, builder, nextLine); break;
+                default: break;
+            }
+        }
+
     }
 }
 

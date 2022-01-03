@@ -81,7 +81,7 @@ namespace Lavender.UI
             {
                 if (!uiNodes.ContainsKey(value))
                 {
-                    uiNodes.Add(value, UINode.NewNode(value));
+                    uiNodes.Add(value, UINode.NewNode(value, this));
                     if(treeRoot == null)
                     {
                         treeRoot = uiNodes[value];
@@ -119,7 +119,7 @@ namespace Lavender.UI
         /// 解析数据
         /// </summary>
         /// <param name="node"></param>
-        public  void ParseProperty(YAML.Node node)
+        public void ParseProperty(YAML.Node node)
         {
             var fatherID = node?.parent?.value;
             //数组形式的数据,交给事先定义好的 task 处理
@@ -172,7 +172,7 @@ namespace Lavender.UI
         /// </summary>
         public class UINode
         {
-
+            
             private UINode parent;
             private ElementType elementType;
             private string gameObjID;
@@ -183,6 +183,8 @@ namespace Lavender.UI
             private List<UINode> childs = new List<UINode>();
 
             private string m_Name;
+
+            public LUITree OwnerTree { set; get; }
 
             public List<UINode> Childs
             {
@@ -199,15 +201,57 @@ namespace Lavender.UI
                     return gameObjID;
                 }
             }
+
+            public string GameObjectName
+            {
+                get
+                {
+                    return m_Name;
+                }
+            }
+
+            public ElementType NodeType {
+                get
+                {
+                    foreach(var compID in compIDs)
+                    {
+                        UINodeComponent comp;
+                        if(OwnerTree.uiComps.TryGetValue(compID, out comp) && comp.elementType != ElementType.Null)
+                        {
+                            return comp.elementType;
+                        }
+                    }
+
+                    return ElementType.Null;
+                }
+            }
+
+            public object ScriptInstance
+            {
+                get
+                {
+                    foreach (var compID in compIDs)
+                    {
+                        UINodeComponent comp;
+                        if (OwnerTree.uiComps.TryGetValue(compID, out comp) && comp is UIMonoBehaviour)
+                        {
+                            return ((UIMonoBehaviour)comp).GetScript();
+                        }
+                    }
+                    return null;
+                }
+            }
+
             public void AddChild(UINode node)
             {
                 childs.Add(node);
             }
 
-            public static UINode NewNode(string context)
+            public static UINode NewNode(string context,LUITree tree)
             {
                 UINode res = new UINode();
                 res.Parse(context);
+                res.OwnerTree = tree;
                 return res;
             }
 
@@ -291,6 +335,14 @@ namespace Lavender.UI
         /// </summary>
         public class UINodeComponent
         {
+
+            public virtual ElementType elementType
+            {
+                get
+                {
+                    return ElementType.Null;
+                }
+            }
             private string compID;
             //private string compType;
             private string gameObjectID;
@@ -393,6 +445,13 @@ namespace Lavender.UI
             {
             }
 
+            public override ElementType elementType
+            {
+                get
+                {
+                    return scriptInstance.elementType;
+                }
+            }
             private string m_Script;
 
             private dynamic scriptInstance;
@@ -433,6 +492,11 @@ namespace Lavender.UI
                     scriptInstance.SetProperty(node);
                 }
             }
+
+            public object GetScript()
+            {
+                return scriptInstance;
+            }
         }
 
         /// <summary>
@@ -440,7 +504,26 @@ namespace Lavender.UI
         /// </summary>
         public class UINodeTextPart
         {
+            public ElementType elementType = ElementType.Text;
+
             private string m_Text;
+            private Color m_Color = new Color(1, 1, 1, 1);
+
+            public string TextString
+            {
+                get
+                {
+                    return m_Text;
+                }
+            }
+
+            public string TextColor
+            {
+                get
+                {
+                    return "CS.UnityEngine.Color.black";
+                }
+            }
 
             public void SetProperty(YAML.Node node)
             {
@@ -455,8 +538,17 @@ namespace Lavender.UI
 
         public class UINodeImagePart
         {
+            public ElementType elementType = ElementType.Image;
 
             private Color color = new Color();
+
+            public string ImageColor
+            {
+                get
+                {
+                    return "CS.UnityEngine.Color.black";
+                }
+            }
 
             private void ParseColor(string context)
             {

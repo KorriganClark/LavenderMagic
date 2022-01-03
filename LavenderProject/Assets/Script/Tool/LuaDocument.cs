@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Lavender.Common;
+using Lavender.UI;
 using Sirenix.Utilities;
 using UnityEngine;
+using static Lavender.UI.LUITree;
 
 namespace Lavender.Lua
 {
@@ -303,6 +305,8 @@ namespace Lavender.Lua
                 builder.Append("\n");
             }
 
+
+
             //lua properties
             if (documentNode.PropertyNodes.Count > 0)
             {
@@ -319,6 +323,7 @@ namespace Lavender.Lua
             }
 
             //class define
+            /*
             if (!string.IsNullOrEmpty(ClassName))
             {
                 builder.Append($"{LUA_CLASSDEINE_TAG}\n");
@@ -333,7 +338,7 @@ namespace Lavender.Lua
                     .Append(documentNode.ModelNode.nextLine);
                 builder.Append($"{LUA_CLASSDEINE_TAG} end\n");
                 builder.Append("\n");
-            }
+            }*/
 
             //lua functions
             if (documentNode.FunctionNodes.Count > 0)
@@ -415,7 +420,9 @@ namespace Lavender.Lua
                 ModelNode = new LuaModelNode();
                 ModelNode.Parse(modelContext);
             }
+
             //class
+            /*
             ClassName = null;
             ClassInitStatement = null;
             if (context.Contains(LUA_CLASSDEINE_TAG))
@@ -424,7 +431,7 @@ namespace Lavender.Lua
                 var splits = classDefineContext.Split('=');
                 ClassName = splits[0].Trim();
                 ClassInitStatement = splits[1].Trim() == "{}" ? null : new LuaScriptStatementNode(splits[1].Trim());
-            }
+            }*/
             //fields
             FieldNodes.Clear();
             if (context.Contains(LUA_FIELDS_TAG))
@@ -997,7 +1004,6 @@ namespace Lavender.Lua
     }
 
 
-
     /// <summary>
     /// 最基础的代码语句
     /// </summary>
@@ -1023,6 +1029,94 @@ namespace Lavender.Lua
         {
             script = context.Trim();
         }
+    }
+
+    public class LuaScriptStateNode : LuaBaseStatementNode
+    {
+        public LuaScriptStateNode() { }
+        public LuaScriptStateNode(string[] propertyNames)
+        {
+            this.propertyNames = propertyNames;
+        }
+
+        private string[] propertyNames;
+
+        public override string ToString(LuaDocumentNode documentNode)
+        {
+            StringBuilder builder = new StringBuilder();
+            stateLayer++;
+            builder.Append("{").Append(nextLine);
+
+            for (int i = 0; i < propertyNames.Length; i++)
+            {
+                builder.Append(propertyNames[i]).Append(" = {},");
+                if(i == propertyNames.Length - 1)
+                {
+                    stateLayer--;
+                }
+                builder.Append(nextLine);
+            }
+            builder.Append("}");
+            return builder.ToString();
+        }
+        public override void Parse(string context)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 创建 UITree 的代码块
+    /// </summary>
+    public class LuaUITreeNode : LuaBaseStatementNode
+    {
+        public LuaUITreeNode() { }
+        public LuaUITreeNode(LUITree tree)
+        {
+            this.tree = tree;
+        }
+        private LUITree tree;
+
+        public override string ToString(LuaDocumentNode documentNode)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.Append("return ").Append(createElementFunc(tree.treeRoot));
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// CreateElement 函数构建，递归调用以形成树形结构
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public string createElementFunc(UINode node)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("Roact.createElement(\"").Append(LUIElement.elementTypeString[(int)node.NodeType]).Append("\",{");
+            stateLayer++;
+            LUIElement.GenLuaProperty(node, builder, nextLine);
+            stateLayer--;
+            builder.Append(nextLine).Append("},{");
+            stateLayer++;
+            builder.Append(nextLine);
+            foreach(var childNode in node.Childs)
+            {
+                var compName = childNode.GameObjectName;
+                builder.Append(compName+" = ").Append(createElementFunc(childNode) + ",").Append(nextLine);
+            }
+            stateLayer--;
+            builder.Append(nextLine).Append("})");
+            return builder.ToString();
+        }
+
+        public override void Parse(string context)
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 
     public class LuaCommentNode : LuaBaseStatementNode

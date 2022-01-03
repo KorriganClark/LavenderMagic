@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 using UnityEngine.UI;
+using static Lavender.UI.LUITree;
 
 namespace Lavender.UI
 {
@@ -29,6 +31,13 @@ namespace Lavender.UI
                     break;
 
             }
+        }
+
+        public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
+        {
+            var image = (UINodeImagePart)node.ScriptInstance;
+            //builder.Append("text = ").Append($"{text.TextString}");
+            builder.Append(nextLine).Append("color = ").Append($"{image.ImageColor},");
         }
     }
 }
