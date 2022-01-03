@@ -47,7 +47,7 @@ namespace Lavender.Lua
         #region Document基本结构
 
         /// <summary>
-        /// 类名
+        /// 类名, 指组件名
         /// </summary>
         public string ClassName { get; set; }
 

@@ -64,12 +64,15 @@ namespace Lavender.UI.UITool
             return tree;
         }
 
-        [Button("Print")]
-        public void PrintPrefab()
+        [Button("生成Lua代码")]
+        public void GenLuaFilebyPrefab()
         {
-            tree.Print();
+
+            //tree.
+            //tree.Print();
             //Debug.Log(yaml.Read("m_Component"));
         }
+
 
     }
 
