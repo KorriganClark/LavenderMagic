@@ -53,23 +53,26 @@ namespace Lavender.UI
                     ((RectTransform)go.transform).sizeDelta = vectval;
                     return;
                 case "anchorMin":
-                    var localPositionin = new Vector2(((RectTransform)go.transform).localPosition.x, ((RectTransform)go.transform).localPosition.y);
+                    var localPositionin = new Vector2(((RectTransform)go.transform).anchoredPosition.x, ((RectTransform)go.transform).anchoredPosition.y);
                     var tableAnchorMin = (LuaTable)prop;
                     var vectvalAnchorMin = new Vector2(tableAnchorMin.Get<float>("x"), tableAnchorMin.Get<float>("y"));
                     ((RectTransform)go.transform).anchorMin = vectvalAnchorMin;
-                    ((RectTransform)go.transform).localPosition = localPositionin;
+                    //((RectTransform)go.transform).anchoredPosition = localPositionin;
                     return;
                 case "anchorMax":
-                    var localPositionax = new Vector2(((RectTransform)go.transform).localPosition.x, ((RectTransform)go.transform).localPosition.y);
+                    var localPositionax = new Vector2(((RectTransform)go.transform).anchoredPosition.x, ((RectTransform)go.transform).anchoredPosition.y);
                     var tableAnchorMax = (LuaTable)prop;
                     var vectvalAnchorMax = new Vector2(tableAnchorMax.Get<float>("x"), tableAnchorMax.Get<float>("y"));
                     ((RectTransform)go.transform).anchorMax = vectvalAnchorMax;
-                    ((RectTransform)go.transform).localPosition = localPositionax;
+                    //((RectTransform)go.transform).anchoredPosition = localPositionax;
                     return;
                 case "position":
                     var tablePos = (LuaTable)prop;
-                    var vectPos = new Vector2(tablePos.Get<float>("x"), tablePos.Get<float>("y"));
-                    ((RectTransform)go.transform).localPosition = vectPos;
+                    var vectPos = new Vector3(tablePos.Get<float>("x"), tablePos.Get<float>("y"), 0);
+                    ((RectTransform)go.transform).anchoredPosition3D = vectPos;
+                    Debug.Log(((RectTransform)go.transform).anchoredPosition);
+                    Debug.Log(((RectTransform)go.transform).position);//bug 原因，在设置位置时，还没挂载到父节点上，导致以世界为坐标进行设置，在设置属性前需要先挂载父节点。
+
                     return;
             }
 

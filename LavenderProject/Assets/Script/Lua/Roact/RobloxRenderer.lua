@@ -146,9 +146,31 @@ local function applyProp(virtualNode, key, newValue, oldValue)
 	end
 end
 
+---用于定制设置属性时的顺序，优先设置表中存在的字段，设置完后再设置其余的
+local indexTable = {
+    "anchorMin",
+    "anchorMax",
+    "position"
+}
+
+local indexCheckTable = {
+    anchorMin = "anchorMin",
+    anchorMax ="anchorMax",
+    position = "position"
+}
+
 local function applyProps(virtualNode, props)
+
+    for _, keyExist in ipairs(indexTable) do
+        if props[keyExist] ~= nil then
+            applyProp(virtualNode, keyExist, props[keyExist], nil)
+        end
+    end
+
 	for propKey, value in pairs(props) do
-		applyProp(virtualNode, propKey, value, nil)
+        if indexCheckTable[propKey] == nil then
+            applyProp(virtualNode, propKey, value, nil)
+        end
 	end
 end
 
@@ -194,6 +216,10 @@ function RobloxRenderer.mountHostNode(reconciler, virtualNode)
 
 	virtualNode.hostObject = instance
 
+    if hostParent ~= nil then
+        instance.transform:SetParent(hostParent.transform)
+    end
+
 	local success, errorMessage = xpcall(function()
 		applyProps(virtualNode, element.props)
 	end, identity)
@@ -221,9 +247,7 @@ function RobloxRenderer.mountHostNode(reconciler, virtualNode)
 		reconciler.updateVirtualNodeWithChildren(virtualNode, virtualNode.hostObject, children)
 	end
 
-	if hostParent ~= nil then
-		instance.transform:SetParent(hostParent.transform)
-	end
+
 
 	virtualNode.hostObject = instance
 
