@@ -44,7 +44,7 @@ end
 function BagItem:render()
     self.props = BagItem.props --TODO，设置默认的props，当没有传入的属性时，按照该属性设置
     BagItem.dataBind(self)
-    BagItem.buildTree(self)
+    return BagItem.buildTree(self)
 end
 
 return BagItem

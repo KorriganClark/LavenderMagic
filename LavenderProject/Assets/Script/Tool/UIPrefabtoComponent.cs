@@ -99,7 +99,7 @@ namespace Lavender.UI.UITool
             var renderFunc = new LuaFunctionNode("render", LuaMemberType.Local);
             renderFunc.statementNodes.Add(new LuaScriptStatementNode($"self.props = {document.ClassName}.props"));
             renderFunc.statementNodes.Add(new LuaScriptStatementNode($"{document.ClassName}.dataBind(self)"));
-            renderFunc.statementNodes.Add(new LuaScriptStatementNode($"{document.ClassName}.buildTree(self)"));
+            renderFunc.statementNodes.Add(new LuaScriptStatementNode($"return {document.ClassName}.buildTree(self)"));
 
             document.AddFunction(dataBindFunc);
             document.AddFunction(buildTreeFunc);

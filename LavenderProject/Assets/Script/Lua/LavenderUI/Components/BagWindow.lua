@@ -4,8 +4,9 @@
 --- DateTime: 2021/12/6 15:29
 ---
 
+---@type BagItem
 local BagItem = require("LavenderUI/Components/BagItem")
-
+local Item = require("LavenderUI/Components/ComTest/Item")
 local BagWindow = Roact.Component:extend("BagWindow")
 
 function BagWindow:init()
@@ -20,7 +21,7 @@ function BagWindow:render()
     local bagSlot = self.state.bagSlot
     local itemList = {}
     for i = 1, bagSlot do
-        itemList["Item_" .. i] = Roact.createElement(BagItem,{
+        itemList["Item_" .. i] = Roact.createElement(Item,{
             position = {x = i * 60 - 10, y = -60 * i + 10}
         })
     end
