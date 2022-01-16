@@ -32,12 +32,12 @@ namespace Lavender.UI
 
             }
         }
-
+        /*
         public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
         {
             var image = (UINodeImagePart)node.ScriptInstance;
             //builder.Append("text = ").Append($"{text.TextString}");
             builder.Append(nextLine).Append("color = ").Append($"{image.ImageColor},");
-        }
+        }*/
     }
 }

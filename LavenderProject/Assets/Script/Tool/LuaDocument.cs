@@ -10,7 +10,6 @@ using Lavender.Common;
 using Lavender.UI;
 using Sirenix.Utilities;
 using UnityEngine;
-using static Lavender.UI.LUITree;
 
 namespace Lavender.Lua
 {
@@ -1071,17 +1070,17 @@ namespace Lavender.Lua
     public class LuaUITreeNode : LuaBaseStatementNode
     {
         public LuaUITreeNode() { }
-        public LuaUITreeNode(LUITree tree)
+        public LuaUITreeNode(GameObject root)
         {
-            this.tree = tree;
+            this.treeRoot = root;
         }
-        private LUITree tree;
+        private GameObject treeRoot;
 
         public override string ToString(LuaDocumentNode documentNode)
         {
             StringBuilder builder = new StringBuilder();
 
-            builder.Append("return ").Append(createElementFunc(tree.treeRoot));
+            builder.Append("return ").Append(createElementFunc(treeRoot));
 
             return builder.ToString();
         }
@@ -1091,8 +1090,10 @@ namespace Lavender.Lua
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public string createElementFunc(UINode node)
+        public string createElementFunc(GameObject node)
         {
+            return "";
+            /*
             StringBuilder builder = new StringBuilder();
             builder.Append("Roact.createElement(\"").Append(LUIElement.elementTypeString[(int)node.NodeType]).Append("\",{");
             stateLayer++;
@@ -1108,7 +1109,7 @@ namespace Lavender.Lua
             }
             stateLayer--;
             builder.Append(nextLine).Append("})");
-            return builder.ToString();
+            return builder.ToString();*/
         }
 
         public override void Parse(string context)

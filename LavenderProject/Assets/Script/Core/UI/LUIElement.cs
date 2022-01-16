@@ -23,7 +23,6 @@ namespace Lavender.UI
     public static class LUIElement
     {
         public static string[] elementTypeString = { "Null", "Text" ,"Image", "Button"};
-        //public ElementType elementType;
         [LuaCallCSharp]
         public static GameObject NewElement(ElementType type)
         {
@@ -93,7 +92,7 @@ namespace Lavender.UI
                 default: break;
             }
         }
-
+        /*
         public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
         {
             switch (node.NodeType)
@@ -106,7 +105,7 @@ namespace Lavender.UI
                     //LButtonElement.GenLuaProperty(node, builder, nextLine); break;
                 default: break;
             }
-        }
+        }*/
 
     }
 }

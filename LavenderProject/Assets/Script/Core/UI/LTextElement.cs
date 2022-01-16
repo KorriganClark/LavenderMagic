@@ -50,12 +50,12 @@ namespace Lavender.UI
                     break;
             }
         }
-
+        /*
         public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
         {
             var text = (UINodeTextPart)node.ScriptInstance;
             builder.Append(nextLine).Append("text = ").Append($"\"{text.TextString}\",");
             builder.Append(nextLine).Append("color = ").Append($"{text.TextColor},");
-        }
+        }*/
     }
 }
