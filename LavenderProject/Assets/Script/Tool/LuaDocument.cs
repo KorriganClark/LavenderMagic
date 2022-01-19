@@ -1092,24 +1092,23 @@ namespace Lavender.Lua
         /// <returns></returns>
         public string createElementFunc(GameObject node)
         {
-            return "";
-            /*
             StringBuilder builder = new StringBuilder();
-            builder.Append("Roact.createElement(\"").Append(LUIElement.elementTypeString[(int)node.NodeType]).Append("\",{");
+            builder.Append("Roact.createElement(\"").Append(LUIElement.elementTypeString[(int)LUIElement.GetInstanceType(node)]).Append("\",{");
             stateLayer++;
             LUIElement.GenLuaProperty(node, builder, nextLine);
             stateLayer--;
             builder.Append(nextLine).Append("},{");
             stateLayer++;
             builder.Append(nextLine);
-            foreach(var childNode in node.Childs)
+            for(int i = 0; i < node.transform.childCount; i++)
             {
-                var compName = childNode.GameObjectName;
-                builder.Append(compName+" = ").Append(createElementFunc(childNode) + ",").Append(nextLine);
+                var child = node.transform.GetChild(i).gameObject;
+                var compName = child.name;
+                builder.Append(compName+" = ").Append(createElementFunc(child) + ",").Append(nextLine);
             }
             stateLayer--;
             builder.Append(nextLine).Append("})");
-            return builder.ToString();*/
+            return builder.ToString();
         }
 
         public override void Parse(string context)

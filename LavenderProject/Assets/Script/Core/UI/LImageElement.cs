@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using static Lavender.UI.LUITree;
+
 
 namespace Lavender.UI
 {
-    public static class LImageElement
+    public class LImageElement
     {
         public static ElementType elementType = ElementType.Image;
 
@@ -32,12 +32,12 @@ namespace Lavender.UI
 
             }
         }
-        /*
-        public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
+        
+        public static void GenLuaProperty(GameObject node, StringBuilder builder, string nextLine)
         {
-            var image = (UINodeImagePart)node.ScriptInstance;
+            var image = node.GetComponent<Image>();
             //builder.Append("text = ").Append($"{text.TextString}");
-            builder.Append(nextLine).Append("color = ").Append($"{image.ImageColor},");
-        }*/
+            builder.Append(nextLine).Append("color = ").Append($"{image.color.ToString()},");
+        }
     }
 }

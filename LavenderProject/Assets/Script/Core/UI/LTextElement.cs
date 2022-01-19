@@ -7,14 +7,22 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static Lavender.UI.LUITree;
 
 namespace Lavender.UI
 {
-    public static class LTextElement 
+    
+    public class LTextElement 
     {
         public static ElementType elementType = ElementType.Text;
 
+        public class TextProps : LUIElement.BaseProps
+        {
+
+            string text { get; set; }
+            Font font { get; set; }
+
+        }
+        public TextProps props;
         public static GameObject NewElement()
         {
             GameObject go = new GameObject("new_Text", typeof(Text));
@@ -28,14 +36,7 @@ namespace Lavender.UI
             return go;
         }
 
-        interface ITextProps : LUIElement.IBaseProps
-        {
-            
-            string text { get; set; }
-            Font font { get; set; }
-            
-
-        }
+        
 
         public static void SetProperty(GameObject go, string key, object prop)
         {
@@ -50,12 +51,12 @@ namespace Lavender.UI
                     break;
             }
         }
-        /*
-        public static void GenLuaProperty(UINode node, StringBuilder builder, string nextLine)
+        
+        public static void GenLuaProperty(GameObject node, StringBuilder builder, string nextLine)
         {
-            var text = (UINodeTextPart)node.ScriptInstance;
-            builder.Append(nextLine).Append("text = ").Append($"\"{text.TextString}\",");
-            builder.Append(nextLine).Append("color = ").Append($"{text.TextColor},");
-        }*/
+            var textComp = node.GetComponent<Text>();
+            builder.Append(nextLine).Append("text = ").Append($"\"{textComp.text}\",");
+            builder.Append(nextLine).Append("color = ").Append($"{textComp.color.ToString()},");
+        }
     }
 }

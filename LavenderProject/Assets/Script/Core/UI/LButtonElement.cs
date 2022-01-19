@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Lavender.UI
 {
-    public static class LButtonElement
+    public class LButtonElement
     {
         public static ElementType elementType = ElementType.Button;
 

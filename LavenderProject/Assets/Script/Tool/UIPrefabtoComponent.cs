@@ -28,19 +28,20 @@ namespace Lavender.UI.UITool
         #region
 
         [FilePath(ParentFolder = "Assets/Artres/UI")]
-        [OnValueChanged("LoadPrefabYamlFile")]
+        //[OnValueChanged("LoadPrefabYamlFile")]
         public string prefabPath;
 
         public string prefabName;
 
+        public GameObject targetRoot;
+
         [FolderPath(ParentFolder = "Assets/Script/Lua/LavenderUI/Components")]
-        //[InfoBox(message: "如果该路径下已有重名脚本，仅刷新注释", visibleIfMemberName: "CheckPath")]
         public string scriptFolderPath;
         #endregion
 
         protected override void OnEnable()
         {
-            //yaml = new YAML();
+
         }
 
 
@@ -48,10 +49,10 @@ namespace Lavender.UI.UITool
         [Button("生成Lua代码")]
         public void GenLuaFilebyPrefab()
         {
-            var LuaFilePath = Application.dataPath + "/Script/Lua/LavenderUI/Components/" + scriptFolderPath + "/" + prefabName + ".lua";
+            var LuaFilePath = Application.dataPath + "/Script/Lua/LavenderUI/Components/" + scriptFolderPath + "/" + targetRoot.name + ".lua";
             var document = new LuaDocumentNode();
 
-            document.ClassName = prefabName;
+            document.ClassName = targetRoot.name;
             document.AddField(new LuaFieldNode(document.ClassName, LuaMemberType.Local, new LuaScriptStatementNode($"Roact.Component:extend(\"{document.ClassName}\")")));
             string[] testString = { "test1", "test2" };
 
@@ -63,7 +64,7 @@ namespace Lavender.UI.UITool
             dataBindFunc.statementNodes.Add(new LuaScriptStatementNode($"self.slot = self.state"));
 
             var buildTreeFunc = new LuaFunctionNode("buildTree", LuaMemberType.Local);
-            buildTreeFunc.statementNodes.Add(new LuaUITreeNode(new GameObject()));
+            buildTreeFunc.statementNodes.Add(new LuaUITreeNode(targetRoot));
 
             var initFunc = new LuaFunctionNode("init", LuaMemberType.Local);
             initFunc.statementNodes.Add(new LuaScriptStatementNode($"self:setState({document.ClassName}.state)"));
