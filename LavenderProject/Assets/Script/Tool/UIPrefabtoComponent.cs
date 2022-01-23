@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.Utilities;
 using Sirenix.OdinInspector.Editor;
-using YamlDotNet;
 using System;
 using UnityEditor;
 using Sirenix.Utilities.Editor;
-using YamlDotNet.RepresentationModel;
 using Sirenix.OdinInspector;
 using System.IO;
 using Lavender.Lua;
@@ -27,7 +25,7 @@ namespace Lavender.UI.UITool
 
         #region
 
-        [FilePath(ParentFolder = "Assets/Artres/UI")]
+        [Sirenix.OdinInspector.FilePath(ParentFolder = "Assets/Artres/UI")]
         //[OnValueChanged("LoadPrefabYamlFile")]
         public string prefabPath;
 
