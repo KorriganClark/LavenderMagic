@@ -55,6 +55,35 @@ namespace Lavender.FrameWork
                 return new T();
             }
 
+            public IReference Acquire()
+            {
+                usingReferenceCount++;
+                if(references.Count > 0)
+                {
+                    return references.Dequeue();
+                }
+                return (IReference)Activator.CreateInstance(referenceType);
+            }
+
+            public void Release(IReference reference)
+            {
+                if(reference == null)
+                {
+                    throw new Exception("Reference is Null!");
+                }
+                reference.Clear();
+                usingReferenceCount--;
+                references.Enqueue(reference);
+            }
+
+            public void Clear()
+            {
+                lock (references)
+                {
+                    references.Clear();
+                }
+            }
+
         }
     }
 }

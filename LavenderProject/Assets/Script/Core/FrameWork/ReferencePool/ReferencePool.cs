@@ -21,9 +21,36 @@ namespace Lavender.FrameWork
             }
         }
 
+        public static void ClearAll()
+        {
+            lock (referenceSets)
+            {
+                foreach(var keyVaue in referenceSets)
+                {
+                    keyVaue.Value.Clear();
+                }
+                referenceSets.Clear();
+            }
+        }
+
         public static T Acquire<T>() where T : class, IReference, new()
         {
-            
+            return GetReferenceSet(typeof(T)).Acquire<T>();
+        }
+
+        public static IReference Acquire(Type referenceType)
+        {
+            return GetReferenceSet(referenceType).Acquire();
+        }
+
+        public static void Release(IReference reference)
+        {
+            if(reference == null)
+            {
+                throw new Exception("Reference is Null");
+            }
+            Type referenceType = reference.GetType();//接口指向的是一个具体的实例，获取了那个实例的类型
+            GetReferenceSet(referenceType).Release(reference);
         }
 
         private static ReferenceSet GetReferenceSet(Type referenceType)
@@ -37,7 +64,7 @@ namespace Lavender.FrameWork
             {
                 if (!referenceSets.TryGetValue(referenceType, out referenceSet))
                 {
-                    referenceSet = new ReferenceSet();
+                    referenceSet = new ReferenceSet(referenceType);
                     referenceSets.Add(referenceType, referenceSet);
                 }
             }
