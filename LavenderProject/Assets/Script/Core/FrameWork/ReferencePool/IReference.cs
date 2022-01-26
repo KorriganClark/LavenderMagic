@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lavender.FrameWork
+namespace Lavender.Framework
 {
     /// <summary>
     /// 引用池使用，实现该接口以进入引用池
