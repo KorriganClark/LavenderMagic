@@ -1,5 +1,6 @@
 ---@type Roact
 Roact = require("Roact/init")
+ColorUtil = require("Util/ColorUtil")
 
 local LuaGameInstance = {}
 local moduleName = "LuaGameInstance";

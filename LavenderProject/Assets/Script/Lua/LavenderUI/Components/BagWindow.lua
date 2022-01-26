@@ -22,12 +22,12 @@ function BagWindow:render()
     local itemList = {}
     for i = 1, bagSlot do
         itemList["Item_" .. i] = Roact.createElement(Item,{
-            position = {x = i * 60 - 10, y = -60 * i + 10}
+            position = CS.UnityEngine.Vector2(i * 60 - 10,  -60 * i + 10)
         })
     end
     return Roact.createElement("Image",{
-        color = CS.UnityEngine.Color.black,
-        size = {x = 800, y = 500}
+        color = RGBA(1.000, 1.000, 1.000, 1.000),
+        size = CS.UnityEngine.Vector2(800, 500)
     },itemList)
 end
 

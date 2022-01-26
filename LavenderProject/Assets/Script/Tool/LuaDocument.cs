@@ -10,7 +10,6 @@ using Lavender.Common;
 using Lavender.UI;
 using Sirenix.Utilities;
 using UnityEngine;
-using static Lavender.UI.LUITree;
 
 namespace Lavender.Lua
 {
@@ -1071,17 +1070,17 @@ namespace Lavender.Lua
     public class LuaUITreeNode : LuaBaseStatementNode
     {
         public LuaUITreeNode() { }
-        public LuaUITreeNode(LUITree tree)
+        public LuaUITreeNode(GameObject root)
         {
-            this.tree = tree;
+            this.treeRoot = root;
         }
-        private LUITree tree;
+        private GameObject treeRoot;
 
         public override string ToString(LuaDocumentNode documentNode)
         {
             StringBuilder builder = new StringBuilder();
 
-            builder.Append("return ").Append(createElementFunc(tree.treeRoot));
+            builder.Append("return ").Append(createElementFunc(treeRoot));
 
             return builder.ToString();
         }
@@ -1091,20 +1090,21 @@ namespace Lavender.Lua
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public string createElementFunc(UINode node)
+        public string createElementFunc(GameObject node)
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append("Roact.createElement(\"").Append(LUIElement.elementTypeString[(int)node.NodeType]).Append("\",{");
+            builder.Append("Roact.createElement(\"").Append(LUIElement.elementTypeString[(int)LUIElement.GetInstanceType(node)]).Append("\",{");
             stateLayer++;
             LUIElement.GenLuaProperty(node, builder, nextLine);
             stateLayer--;
             builder.Append(nextLine).Append("},{");
             stateLayer++;
             builder.Append(nextLine);
-            foreach(var childNode in node.Childs)
+            for(int i = 0; i < node.transform.childCount; i++)
             {
-                var compName = childNode.GameObjectName;
-                builder.Append(compName+" = ").Append(createElementFunc(childNode) + ",").Append(nextLine);
+                var child = node.transform.GetChild(i).gameObject;
+                var compName = child.name;
+                builder.Append(compName+" = ").Append(createElementFunc(child) + ",").Append(nextLine);
             }
             stateLayer--;
             builder.Append(nextLine).Append("})");
