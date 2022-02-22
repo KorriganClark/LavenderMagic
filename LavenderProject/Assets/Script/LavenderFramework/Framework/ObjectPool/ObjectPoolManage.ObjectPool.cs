@@ -143,6 +143,11 @@ namespace Lavender.Framework.ObjectPool
                 }
             }
 
+            /// <summary>
+            /// 注册对象
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="spawned"></param>
             public void Register(T obj,bool spawned)
             {
                 if(obj == null)
@@ -159,6 +164,11 @@ namespace Lavender.Framework.ObjectPool
                 }
             }
 
+            /// <summary>
+            /// 能否生成
+            /// </summary>
+            /// <param name="target">目标</param>
+            /// <returns></returns>
             public bool CanSpawn(object target)
             {
                 if(target == null)
@@ -176,6 +186,143 @@ namespace Lavender.Framework.ObjectPool
                 return false;
             }
 
+            public T Spawn()
+            {
+                foreach(var proxyPair in objectMap)
+                {
+                    if(allowMultiSpawn || !proxyPair.Value.IsInUse)
+                    {
+                        return proxyPair.Value.Spawn();
+                    }
+                }
+                return null;
+            }
+
+            public void Unspawn(T proxy)
+            {
+                Unspawn(proxy.Target);
+            }
+
+            public void Unspawn(object target)
+            {
+                var proxy = GetObject(target);
+                if(proxy != null)
+                {
+                    proxy.Unspawn();
+                    if(Count > capacity && proxy.SpawnCount <= 0)
+                    {
+                        Release();
+                    }
+                }
+                else
+                {
+                    throw new Exception("No target!");
+                }
+            }
+
+            public bool ReleaseObject(T obj)
+            {
+                if(obj == null)
+                {
+                    throw new Exception("No object");
+                }
+                return ReleaseObject(obj.Target);
+            }
+
+            public bool ReleaseObject(object target)
+            {
+                if(target == null)
+                {
+                    throw new Exception("No target!");
+                }
+                var proxy = GetObject(target);
+                if(proxy == null)
+                {
+                    return false;
+                }
+                if(proxy.IsInUse || proxy.Locked || !proxy.CustomCanReleaseFlag)
+                {
+                    return false;
+                }
+                objectMap.Remove(proxy.GetTarget().Target);
+                proxy.Release(false);
+                ReferencePool.Release(proxy);
+                return true;
+            }
+
+            public override void Release()
+            {
+                Release(Count - capacity);
+            }
+
+            public override void Release(int toReleaseCount)
+            {
+                if(toReleaseCount < 0)
+                {
+                    toReleaseCount = 0;
+                }
+                DateTime expireFlag = DateTime.MinValue;
+                if(expireTime < float.MaxValue)
+                {
+                    expireFlag = DateTime.UtcNow.AddSeconds(-expireTime);//该节点之前的都应当释放
+                }
+
+                autoReleaseTime = 0f;
+                GetCanReleaseObjects(cachedCanReleaseObjects);
+                List<T> toReleaseObjects = DefaultReleaseObjectFiler(cachedCanReleaseObjects, toReleaseCount, expireFlag);
+                if(toReleaseObjects == null || toReleaseObjects.Count == 0)
+                {
+                    return;
+                }
+                foreach(T toReleaseObject in toReleaseObjects)
+                {
+                    ReleaseObject(toReleaseObject);
+                }
+            }
+
+            internal override void Update(float elapseSeconds, float realElapseSeconds)
+            {
+                autoReleaseTime += realElapseSeconds;
+                if(autoReleaseTime < autoReleaseInterval)
+                {
+                    return;
+                }
+                Release();
+            }
+
+            internal override void Shutdown()
+            {
+                foreach(var pair in objectMap)
+                {
+                    pair.Value.Release(true);
+                    ReferencePool.Release(pair.Value);
+                }
+
+                objectMap.Clear();
+                cachedCanReleaseObjects.Clear();
+                cachedToReleaseObjects.Clear();
+            }
+
+            private Object<T> GetObject(object target)
+            {
+                if (target == null)
+                {
+                    throw new Exception("Target is invalid.");
+                }
+
+                Object<T> proxy = null;
+                if (objectMap.TryGetValue(target, out proxy))
+                {
+                    return proxy;
+                }
+
+                return null;
+            }
+
+            /// <summary>
+            /// 筛选出能够释放的对象
+            /// </summary>
+            /// <param name="results"></param>
             private void GetCanReleaseObjects(List<T> results)
             {
                 if(results == null)
@@ -193,6 +340,7 @@ namespace Lavender.Framework.ObjectPool
                     results.Add(objectProxy.GetTarget());
                 }
             }
+
 
             private List<T> DefaultReleaseObjectFiler(List<T>candidateObjects,int toReleaseCount, DateTime expireTime)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Lavender.Framework.ObjectPool
 {
     /// <summary>
-    /// 对象池基类
+    /// 对象池对象基类，想管理的对象都需要继承ObjectBase，实现生成、回收方法
     /// </summary>
     public abstract class ObjectBase : IReference
     {

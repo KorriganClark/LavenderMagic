@@ -130,7 +130,7 @@ namespace Lavender.Framework.ObjectPool
         /// <summary>
         /// 释放对象池中的所有未使用对象。
         /// </summary>
-        public abstract void ReleaseAllUnused();
+        //public abstract void ReleaseAllUnused();
 
         internal abstract void Update(float elapseSeconds, float realElapseSeconds);
 

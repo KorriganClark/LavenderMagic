@@ -8,6 +8,10 @@ namespace Lavender.Framework.ObjectPool
 {
     internal sealed partial class ObjectPoolManager : FrameworkModule, IObjectPoolManager
     {
+        /// <summary>
+        /// 对象代理
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         private sealed class Object<T> : IReference where T : ObjectBase
         {
             private T target;

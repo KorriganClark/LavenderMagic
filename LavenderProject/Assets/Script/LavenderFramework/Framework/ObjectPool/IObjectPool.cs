@@ -107,27 +107,13 @@ namespace Lavender.Framework.ObjectPool
         /// 检查对象。
         /// </summary>
         /// <returns>要检查的对象是否存在。</returns>
-        bool CanSpawn();
-
-        /// <summary>
-        /// 检查对象。
-        /// </summary>
-        /// <param name="name">对象名称。</param>
-        /// <returns>要检查的对象是否存在。</returns>
-        bool CanSpawn(string name);
+        bool CanSpawn(object target);
 
         /// <summary>
         /// 获取对象。
         /// </summary>
         /// <returns>要获取的对象。</returns>
         T Spawn();
-
-        /// <summary>
-        /// 获取对象。
-        /// </summary>
-        /// <param name="name">对象名称。</param>
-        /// <returns>要获取的对象。</returns>
-        T Spawn(string name);
 
         /// <summary>
         /// 回收对象。
@@ -146,28 +132,28 @@ namespace Lavender.Framework.ObjectPool
         /// </summary>
         /// <param name="obj">要设置被加锁的对象。</param>
         /// <param name="locked">是否被加锁。</param>
-        void SetLocked(T obj, bool locked);
+        //void SetLocked(T obj, bool locked);
 
         /// <summary>
         /// 设置对象是否被加锁。
         /// </summary>
         /// <param name="target">要设置被加锁的对象。</param>
         /// <param name="locked">是否被加锁。</param>
-        void SetLocked(object target, bool locked);
+        //void SetLocked(object target, bool locked);
 
         /// <summary>
         /// 设置对象的优先级。
         /// </summary>
         /// <param name="obj">要设置优先级的对象。</param>
         /// <param name="priority">优先级。</param>
-        void SetPriority(T obj, int priority);
+        //void SetPriority(T obj, int priority);
 
         /// <summary>
         /// 设置对象的优先级。
         /// </summary>
         /// <param name="target">要设置优先级的对象。</param>
         /// <param name="priority">优先级。</param>
-        void SetPriority(object target, int priority);
+        //void SetPriority(object target, int priority);
 
         /// <summary>
         /// 释放对象。
@@ -197,6 +183,6 @@ namespace Lavender.Framework.ObjectPool
         /// <summary>
         /// 释放对象池中的所有未使用对象。
         /// </summary>
-        void ReleaseAllUnused();
+        //void ReleaseAllUnused();
     }
 }
