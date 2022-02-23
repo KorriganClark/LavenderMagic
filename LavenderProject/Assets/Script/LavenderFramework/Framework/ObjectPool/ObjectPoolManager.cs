@@ -13,13 +13,13 @@ namespace Lavender.Framework.ObjectPool
         private const int DefaultPriority = 0;
 
         private readonly Dictionary<string, ObjectPoolBase> objectPools;
-        private readonly List<ObjectPoolBase> cashedAllObjectPools;
+        private readonly List<ObjectPoolBase> cachedAllObjectPools;
         private readonly Comparison<ObjectPoolBase> objectPoolComparer;
 
         public ObjectPoolManager()
         {
             objectPools = new Dictionary<string, ObjectPoolBase>();
-            cashedAllObjectPools = new List<ObjectPoolBase>();
+            cachedAllObjectPools = new List<ObjectPoolBase>();
             objectPoolComparer = ObjectPoolComparer;
         }
 
@@ -65,7 +65,7 @@ namespace Lavender.Framework.ObjectPool
                 objectPoolKeyValue.Value.Shutdown();
             }
             objectPools.Clear();
-            cashedAllObjectPools.Clear();
+            cachedAllObjectPools.Clear();
         }
 
         public bool HasObjectPool(string name)
@@ -171,6 +171,30 @@ namespace Lavender.Framework.ObjectPool
             return objectPool;
         }
 
+        public ObjectPoolBase CreateObjectPool(Type objectType,string name, bool allowMultiSpawn = false, float autoReleaseInterval = DefaultExpireTime, int capacity = DefaultCapacity, float expireTime = DefaultExpireTime, int priority = DefaultPriority)
+        {
+            if(objectType == null)
+            {
+                throw new Exception("objectType is Null!");
+            }
+
+            if (!typeof(ObjectBase).IsAssignableFrom(objectType))
+            {
+                throw new Exception($"Object type '{objectType.FullName}' is invalid.");
+            }
+
+            if (HasObjectPool(name))
+            {
+                throw new Exception("Already exist this Object Pool!");
+            }
+
+            Type objectPoolType = typeof(ObjectPool<>).MakeGenericType(objectType);
+            ObjectPoolBase objectPool = (ObjectPoolBase)Activator.CreateInstance(objectPoolType, name, allowMultiSpawn, autoReleaseInterval, capacity, expireTime, priority);
+            objectPools.Add(name, objectPool);
+            return objectPool;
+        }
+
+
         public bool DestroyObjectPool(string name)
         {
             ObjectPoolBase objectPool = null;
@@ -182,6 +206,35 @@ namespace Lavender.Framework.ObjectPool
             return false;
         }
 
+        public bool DestroyObjectPool(ObjectPoolBase objectPool)
+        {
+            var firstKey = objectPools.FirstOrDefault(q => q.Value == objectPool).Key;
+            return DestroyObjectPool(firstKey);
+        }
+
+        /// <summary>
+        /// 释放对象池中的可释放对象。
+        /// </summary>
+        public void Release()
+        {
+            cachedAllObjectPools.Clear();
+            cachedAllObjectPools.AddRange(GetAllObjectPools(true));
+            foreach (ObjectPoolBase objectPool in cachedAllObjectPools)
+            {
+                objectPool.Release();
+            }
+        }
+
+        /*
+        public void ReleaseAllUnused()
+        {
+            cachedAllObjectPools.Clear();
+            cachedAllObjectPools.AddRange(GetAllObjectPools(true));
+            foreach (ObjectPoolBase objectPool in cachedAllObjectPools)
+            {
+                objectPool.ReleaseAllUnused();
+            }
+        }*/
 
         private static int ObjectPoolComparer(ObjectPoolBase a, ObjectPoolBase b)
         {

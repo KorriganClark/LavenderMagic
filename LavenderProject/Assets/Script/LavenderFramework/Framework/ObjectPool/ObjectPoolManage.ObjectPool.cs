@@ -14,14 +14,23 @@ namespace Lavender.Framework.ObjectPool
         /// <typeparam name="T">对象类型</typeparam>
         private sealed class ObjectPool<T> : ObjectPoolBase, IObjectPool<T> where T : ObjectBase
         {
+            //存储所有对象代理的集合，以具体对象为键
             private readonly Dictionary<object, Object<T>> objectMap;
+            //可以释放的对象，所有未使用，未上锁的对象
             private readonly List<T> cachedCanReleaseObjects;
+            //将要释放的对象，根据容器大小、回收周期决定
             private readonly List<T> cachedToReleaseObjects;
+            //允许对同一个对象使用多次
             private readonly bool allowMultiSpawn;
+            //自动进行对象释放的周期
             private float autoReleaseInterval;
+            //容量，当池中对象数超过该值时立即执行释放逻辑，但不一定会释放到小于该值，因为可能剩下的都被占用着
             private int capacity;
+            //过期时间，用于释放
             private float expireTime;
+            //优先级
             private int priority;
+            //据上次释放的时间，用于自动释放
             private float autoReleaseTime;
 
             public ObjectPool(string name, bool allowMultiSpawn, float autoReleaseInterval, int capacity, float expireTime, int priority)
@@ -341,7 +350,13 @@ namespace Lavender.Framework.ObjectPool
                 }
             }
 
-
+            /// <summary>
+            /// 默认的释放优先顺序，超时的必定释放，如果数量还不够，根据优先级和最近使用原则进行选择
+            /// </summary>
+            /// <param name="candidateObjects"></param>
+            /// <param name="toReleaseCount"></param>
+            /// <param name="expireTime"></param>
+            /// <returns></returns>
             private List<T> DefaultReleaseObjectFiler(List<T>candidateObjects,int toReleaseCount, DateTime expireTime)
             {
                 cachedToReleaseObjects.Clear();

@@ -11,7 +11,9 @@ namespace Lavender.Framework.ObjectPool
     /// </summary>
     public abstract class ObjectBase : IReference
     {
+        //对象名
         private string name;
+        //真正用于实际使用的对象
         private object target;
         private bool locked;
         private int priority;

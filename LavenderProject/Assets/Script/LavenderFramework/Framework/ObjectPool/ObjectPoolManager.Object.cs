@@ -14,7 +14,9 @@ namespace Lavender.Framework.ObjectPool
         /// <typeparam name="T"></typeparam>
         private sealed class Object<T> : IReference where T : ObjectBase
         {
+            //目标对象
             private T target;
+            //引用次数
             private int spawnCount;
 
             public Object()
