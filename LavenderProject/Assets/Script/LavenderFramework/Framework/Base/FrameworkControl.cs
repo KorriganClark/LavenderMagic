@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Lavender.Framework
 {
     public static class FrameworkControl
     {
         private static readonly List<FrameworkModule> frameworkModules = new List<FrameworkModule>();
+
+        private static float _realtimeSinceUpdateStartup;
+
+        private static float _maxUpdateTimeSlice = 0.01f;
+        public static float maxUpdateTimeSlice { get { return _maxUpdateTimeSlice; } set { _maxUpdateTimeSlice = value; } } 
+        public static bool busy => Time.realtimeSinceStartup - _realtimeSinceUpdateStartup >= maxUpdateTimeSlice;
 
         /// <summary>
         /// 轮询更新，需要上层调用
@@ -17,7 +24,8 @@ namespace Lavender.Framework
         /// <param name="realElapseSeconds">真实时间</param>
         public static void Update(float elapseSeconds, float realElapseSeconds)
         {
-            foreach(var module in frameworkModules)
+            _realtimeSinceUpdateStartup = Time.realtimeSinceStartup;
+            foreach (var module in frameworkModules)
             {
                 module.Update(elapseSeconds, realElapseSeconds);
             }

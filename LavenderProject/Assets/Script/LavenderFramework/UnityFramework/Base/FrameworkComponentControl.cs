@@ -28,7 +28,7 @@ namespace Lavender.UnityFramework
                     return component;
                 }
             }
-            throw new Exception("No FrameworkComponent!");
+            throw new Exception($"No FrameworkComponent: {type.FullName}!");
         }
 
         /// <summary>

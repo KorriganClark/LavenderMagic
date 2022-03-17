@@ -1,0 +1,15 @@
+{
+    "name": "UnityFramework",
+    "references": [
+        "GUID:762af5723b246974188a9efb2abf9578"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

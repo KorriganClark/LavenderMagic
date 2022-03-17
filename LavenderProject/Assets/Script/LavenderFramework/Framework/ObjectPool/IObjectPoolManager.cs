@@ -59,7 +59,7 @@ namespace Lavender.Framework.ObjectPool
         /// <param name="expireTime">对象池对象过期秒数。</param>
         /// <param name="priority">对象池的优先级。</param>
         /// <returns>要创建的允许多次获取的对象池。</returns>
-        IObjectPool<T> CreateObjectPool<T>(string name, bool allowMultiSpawn = false, float autoReleaseInterval, int capacity, float expireTime, int priority) where T : ObjectBase;
+        IObjectPool<T> CreateObjectPool<T>(string name, bool allowMultiSpawn = false, float autoReleaseInterval = float.MaxValue, int capacity = int.MaxValue, float expireTime = float.MaxValue, int priority = 0) where T : ObjectBase;
 
         /// <summary>
         /// 创建对象池。
@@ -71,7 +71,7 @@ namespace Lavender.Framework.ObjectPool
         /// <param name="expireTime">对象池对象过期秒数。</param>
         /// <param name="priority">对象池的优先级。</param>
         /// <returns>要创建的允许多次获取的对象池。</returns>
-        ObjectPoolBase CreateObjectPool(Type objectType, string name, bool allowMultiSpawn = false, float autoReleaseInterval, int capacity, float expireTime, int priority) where T : ObjectBase;
+        ObjectPoolBase CreateObjectPool(Type objectType, string name, bool allowMultiSpawn = false, float autoReleaseInterval = float.MaxValue, int capacity = int.MaxValue, float expireTime = float.MaxValue, int priority = 0);
 
         /// <summary>
         /// 销毁对象池。

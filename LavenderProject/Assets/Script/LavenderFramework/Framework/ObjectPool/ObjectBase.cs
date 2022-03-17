@@ -90,7 +90,7 @@ namespace Lavender.Framework.ObjectPool
             }
             internal set
             {
-                LastUseTime = value;
+                lastUseTime = value;
             }
         }
 
