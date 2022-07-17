@@ -1,12 +1,6 @@
 {
     "name": "Sirenix.OdinInspector.CompatibilityLayer.Editor",
     "references": [
-        "Sirenix.OdinInspector.Attributes",
-        "Sirenix.Serialization",
-        "Sirenix.Serialization.Config",
-        "Sirenix.Utilities",
-        "Sirenix.Utilities.Editor",
-        "Sirenix.OdinInspector.Editor",
         "Sirenix.OdinInspector.CompatibilityLayer"
     ],
     "includePlatforms": [
