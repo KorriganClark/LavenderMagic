@@ -14,6 +14,6 @@ namespace Lavender.Framework
         /// <summary>
         /// 回池时调用
         /// </summary>
-        public void Clear();
+        void Clear();
     }
 }
