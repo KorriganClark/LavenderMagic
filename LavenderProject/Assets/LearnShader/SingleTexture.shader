@@ -24,7 +24,7 @@
             fixed4 _Specular;
             float _Gloss;
             fixed4 _Color;
-            sample2D _MainTex;
+            sampler2D _MainTex;
             float4 _MainTex_ST;
 
             struct a2f
@@ -37,8 +37,9 @@
             struct v2f
             {
                 float4 pos : SV_POSITION;
-                fixed3 worldNormal : TEXCOORD0;
-                fixed3 worldPos : TEXCOORD1;
+                float3 worldNormal : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
+                float2 uv : TEXCOORD2;
             };
 
             v2f vert (a2f v)
@@ -47,25 +48,30 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
                 o.worldPos = mul(unity_ObjectToWorld ,v.vertex).xyz;
+                
+                o.uv = v.texcoord.xy;
+                o.uv = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
                 
-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 
                 fixed3 worldNormal = normalize(i.worldNormal);
                 fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
-                fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal, worldLightDir));
+                fixed3 albedo = tex2D(_MainTex, i.uv).rgb * _Color.rgb;
+                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
+                fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(worldNormal, worldLightDir));
                 //fixed3 reflectDir = normalize(reflect(- worldLightDir, worldNormal));
                 fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
-                fixed3 h = normalize(worldLightDir + viewDir);
-                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, h)), _Gloss);
+                fixed3 halfDir = normalize(worldLightDir + viewDir);
+                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, halfDir)), _Gloss);
                 fixed3 color = diffuse + ambient + specular;
                 return fixed4(color, 1.0);
             }
             ENDCG
         }
     }
+    Fallback "Specular"
 }
