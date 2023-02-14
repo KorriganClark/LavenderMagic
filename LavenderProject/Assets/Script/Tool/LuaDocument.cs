@@ -8,7 +8,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Lavender.Common;
 using Lavender.UI;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace Lavender.Lua
@@ -403,7 +402,7 @@ namespace Lavender.Lua
             {
                 var requireContext = context.FindBetween($"{LUA_REQUIRES_TAG}", $"{LUA_REQUIRES_TAG} end");
                 var lines = from line in requireContext.Split('\n') where !string.IsNullOrEmpty(line.Trim()) select line;
-                lines.ForEach((line) =>
+                lines.Foreach((line) =>
                 {
                     var requireNode = new LuaRequireNode();
                     requireNode.Parse(line);
@@ -441,7 +440,7 @@ namespace Lavender.Lua
                 int rightCount = 0;
                 LuaFieldNode fieldNode;
                 StringBuilder sb = null;
-                lines.ForEach((line) =>
+                lines.Foreach((line) =>
                 {
                     if (leftCount <= 0)
                     {

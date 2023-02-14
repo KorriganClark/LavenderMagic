@@ -1,31 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.Utilities;
-using Sirenix.OdinInspector.Editor;
 using System;
 using UnityEditor;
-using Sirenix.Utilities.Editor;
-using Sirenix.OdinInspector;
 using System.IO;
 using Lavender.Lua;
 using Lavender.Common;
 
 namespace Lavender.UI.UITool
 {
-    public class UIPrefabtoComponent : OdinEditorWindow
+    public class UIPrefabtoComponent //: OdinEditorWindow
     {
 
         [MenuItem("UITool/UIPrefabtoComponent")]
         private static void Open()
-        {
+        {/*
             var window = GetWindow<UIPrefabtoComponent>();
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);
+            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);*/
         }
 
         #region
 
-        [Sirenix.OdinInspector.FilePath(ParentFolder = "Assets/Artres/UI")]
+        //[Sirenix.OdinInspector.FilePath(ParentFolder = "Assets/Artres/UI")]
         //[OnValueChanged("LoadPrefabYamlFile")]
         public string prefabPath;
 
@@ -33,18 +29,13 @@ namespace Lavender.UI.UITool
 
         public GameObject targetRoot;
 
-        [FolderPath(ParentFolder = "Assets/Script/Lua/LavenderUI/Components")]
+        //[FolderPath(ParentFolder = "Assets/Script/Lua/LavenderUI/Components")]
         public string scriptFolderPath;
         #endregion
 
-        protected override void OnEnable()
-        {
-
-        }
 
 
-
-        [Button("生成Lua代码")]
+        //[Button("生成Lua代码")]
         public void GenLuaFilebyPrefab()
         {
             var LuaFilePath = Application.dataPath + "/Script/Lua/LavenderUI/Components/" + scriptFolderPath + "/" + targetRoot.name + ".lua";
