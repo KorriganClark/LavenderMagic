@@ -5,18 +5,29 @@ using System;
 
 namespace Lavender
 {
+
+    public enum MoveState
+    {
+        Idle,
+        Walk,
+        Run,
+        Rush,
+        Jump,
+        Fall,
+    }
+
     [Serializable]
     public class LavenderCharacterControl : MonoBehaviour
     {
         [SerializeField]
         public LavenderCharacterConfig characterConfig;
         [SerializeField]
-        public GameObject camObj;
-        public CameraController cameraController;
+        private GameObject camObj;
+        private CameraController cameraController;
         private CharacterController moveController;
         private LavenderAnimComponent animComp;
         public GameObject characterModel;
-        public string characterstate = "idle";
+        public MoveState moveState = MoveState.Idle;
         public bool canMove = true;
         void Start()
         {
@@ -47,10 +58,10 @@ namespace Lavender
         {
             if (canMove == false)
             {
-                if (characterstate == "walk")
+                if (moveState == MoveState.Idle)
                 {
                     animComp.PlayAnim(characterModel.GetComponent<Animator>(), 0);
-                    characterstate = "idle";
+                    moveState = MoveState.Idle;
                 }
                 return;
             }
@@ -65,22 +76,17 @@ namespace Lavender
                 characterModel.transform.forward = move.normalized;
             }
 
-            if (dir.sqrMagnitude != 0 && characterstate == "idle")
+            if (dir.sqrMagnitude != 0 && moveState == MoveState.Idle)
             {
                 animComp.PlayAnim(characterModel.GetComponent<Animator>(), 1);
-                characterstate = "walk";
+                moveState = MoveState.Walk;
                 characterModel.transform.forward = move.normalized;
             }
-            else if(dir.sqrMagnitude * 100 == 0 && characterstate == "walk")
+            else if(dir.sqrMagnitude * 100 == 0 && moveState == MoveState.Walk)
             {
                 animComp.PlayAnim(characterModel.GetComponent<Animator>(), 0);
-                characterstate = "idle";
+                moveState = MoveState.Idle;
             }
-        }
-
-        public void CameraMoveWithMonsterPos()
-        {
-            cameraController.MoveTo(22, 20);
         }
 
     }
