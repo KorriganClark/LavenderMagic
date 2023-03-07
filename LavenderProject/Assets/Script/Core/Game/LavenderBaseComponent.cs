@@ -1,9 +1,12 @@
 ﻿using Lavender.UnityFramework;
+using UnityEditor;
 
-class LavenderBaseComponent : BaseComponent
+namespace Lavender{
+    class LavenderBaseComponent : BaseComponent
 {
     private void Start()
     {
+        LavenderGameMode.gameConfig = gameObject.GetComponent<GameConfig>();
         LavenderGameMode.Start();
     }
 
@@ -13,3 +16,5 @@ class LavenderBaseComponent : BaseComponent
         LavenderGameMode.Update();
     }
 }
+}
+

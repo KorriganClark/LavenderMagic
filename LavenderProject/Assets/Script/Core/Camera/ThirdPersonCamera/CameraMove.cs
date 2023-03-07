@@ -97,13 +97,14 @@ public class CameraMove : MonoBehaviour
     }
 
     //开始旋转，纪录当前偏移角度，用于复原
+    /*
     public void StartRotate()
     {
         m_isRotateing = true;
 
         m_recordAngleX = m_offsetAngleX;
         m_recordAngleY = m_offsetAngleY;
-    }
+    }*/
 
     //旋转，修改偏移角度的值，屏幕左右滑动即修改m_offsetAngleX，上下滑动修改m_offsetAngleY
     public void Rotate(float x, float y)
@@ -130,6 +131,7 @@ public class CameraMove : MonoBehaviour
 
 
     //旋转结束，如需要复原镜头则，偏移角度还原并计算偏移坐标
+    /*
     public void EndRotate(bool isNeedReset = false)
     {
         m_isRotateing = false;
@@ -140,6 +142,6 @@ public class CameraMove : MonoBehaviour
             m_offsetAngleX = m_recordAngleX;
             CalculateOffset();
         }
-    }
+    }*/
 
 }

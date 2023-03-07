@@ -6,11 +6,28 @@ using UnityEngine.Playables;
 namespace Lavender
 {
     [Serializable]
-    public class LavenderAnimComponent : MonoBehaviour
+    public class LAnimComponent : LComponent
     {
         //public Dictionary<string, AnimationClip> animClips;
         public List<AnimationClip> animClips;//为了序列化，使用List。以后应当做好动作与动画的映射
         PlayableGraph playableGraph;
+
+        private Animator EntityAnimator
+        {
+            get
+            {
+                if(Entity.Model!= null)
+                {
+                    var res = Entity.Model.GetComponent<Animator>();
+                    if (res == null) 
+                    {
+                        res = Entity.Model.AddComponent<Animator>();
+                    }
+                    return res;
+                }
+                return null;
+            }
+        }
         private void Start()
         {
 
@@ -20,9 +37,9 @@ namespace Lavender
         /// </summary>
         /// <param name="animator"></param>
         /// <param name="animType"></param>
-        public void PlayAnim(Animator animator, int animType)
+        public void PlayAnim(int animType)
         {
-            AnimationPlayableUtilities.PlayClip(animator, animClips[animType], out playableGraph);
+            AnimationPlayableUtilities.PlayClip(EntityAnimator, animClips[animType], out playableGraph);
         }
     }
 }
