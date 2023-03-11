@@ -23,8 +23,9 @@ public static class LavenderGameMode
     {
         var delta = Time.deltaTime;
         luaState.Update();
+
+        InputMgr.Instance.Update();
         LCharacterControl.Instance.Update(delta);
         LEntityMgr.Instance.Update(delta);
-        InputMgr.Instance.Update();
     }
 }

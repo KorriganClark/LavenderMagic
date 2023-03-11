@@ -100,41 +100,13 @@ namespace Lavender
             Vector3 move = (Vector3)(Entity?.Model?.transform.forward * MoveSpeed * Time.deltaTime);
             move.y = 0;
             MoveController.Move(move);
+            //Debug.Log($"Move时间:{Time.realtimeSinceStartup}");
+
         }
-        private void TryToMove()
+        
+        public void TryFall()
         {
-            /*
-            if (CanMove == false)
-            {
-                if (MoveState == EMoveState.Idle)
-                {
-                    animComp.PlayAnim(characterModel.GetComponent<Animator>(), 0);
-                    MoveState = EMoveState.Idle;
-                }
-                return;
-            }
 
-            Vector3 move = camObj.transform.forward * Input.GetAxis("Vertical") + camObj.transform.right * Input.GetAxis("Horizontal");
-            move.y = 0;
-            Vector3 dir = move.normalized * characterConfig.Speed * Time.deltaTime;
-            moveController.Move(dir);
-
-            if (dir.sqrMagnitude != 0)
-            {
-                characterModel.transform.forward = move.normalized;
-            }
-
-            if (dir.sqrMagnitude != 0 && moveState == MoveState.Idle)
-            {
-                animComp.PlayAnim(characterModel.GetComponent<Animator>(), 1);
-                moveState = MoveState.Walk;
-                characterModel.transform.forward = move.normalized;
-            }
-            else if (dir.sqrMagnitude * 100 == 0 && moveState == MoveState.Walk)
-            {
-                animComp.PlayAnim(characterModel.GetComponent<Animator>(), 0);
-                moveState = MoveState.Idle;
-            }*/
         }
 
     }

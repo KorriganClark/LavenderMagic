@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Lavender
@@ -31,9 +32,16 @@ namespace Lavender
 
     public class StateIdle : MoveState, IState
     {
-        public StateIdle()
+        public void InitTransition()
         {
-
+            AddTransition<StateWalk>(() =>
+            {
+                if (AttrComponent?.CurrentMoveSpeed > 0)
+                {
+                    return true;
+                }
+                return false;
+            });
         }
         
         public void Enter(object param)
@@ -48,21 +56,22 @@ namespace Lavender
 
         public void Update(float deltaTime)
         {
-            if(AttrComponent == null)
-            {
-                return;
-            }
-
-            if(AttrComponent.CurrentMoveSpeed > 0)
-            {
-                StateMachine.HandleSwitch<StateWalk>();
-                return;
-            }
         }
     }
 
     public class StateWalk : MoveState, IState
     {
+        public void InitTransition()
+        {
+            AddTransition<StateIdle>(() =>
+            {
+                if (AttrComponent?.CurrentMoveSpeed <= 0)
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
         public void Enter(object param)
         {
             return;
@@ -75,16 +84,7 @@ namespace Lavender
 
         public void Update(float deltaTime)
         {
-            if (AttrComponent == null)
-            {
-                return;
-            }
-            if (AttrComponent.CurrentMoveSpeed <= 0)
-            {
-                StateMachine.HandleSwitch<StateIdle>();
-                return;
-            }
-            MoveComponent.MoveForward();
+            MoveComponent?.MoveForward();
         }
     }
 
