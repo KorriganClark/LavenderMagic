@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Lavender
 {
@@ -19,30 +20,30 @@ namespace Lavender
     /// </summary>
     public interface IState
     {
-        /// <summary>
-        /// 构建转移函数
-        /// </summary>
-        void InitTransition() { }
 
-        void Update(float deltaTime) { }
+        void Update(float deltaTime);
         /// <summary>
         /// 入口函数
         /// </summary>
         /// <param name="param"></param>
-        void Enter(object param) { }
+        void Enter(object param);
         /// <summary>
         /// 结束函数
         /// </summary>
         /// <param name="param"></param>
-        void Exit(object param) { }
+        void Exit(object param);
     }
     /// <summary>
     /// 状态基类
     /// </summary>
-    public class BaseState
+    public class BaseState : IState
     {
         public BaseStateMachine StateMachine { get; set; }
         public Dictionary<TransitionHandler, Type> transitionHandlers = new Dictionary<TransitionHandler, Type>();
+        /// <summary>
+        /// 构建转移函数
+        /// </summary>
+        public virtual void InitTransition() { }
 
         public void AddTransition<T>(TransitionHandler handler) where T : BaseState, IState, new()
         {
@@ -64,6 +65,21 @@ namespace Lavender
                 }
             }
         }
+
+        public virtual void Update(float deltaTime)
+        {
+            
+        }
+
+        public virtual void Enter(object param)
+        {
+            
+        }
+
+        public virtual void Exit(object param)
+        {
+            
+        }
     }
 
 
@@ -73,25 +89,35 @@ namespace Lavender
     /// </summary>
     public class BaseStateMachine
     {
-        private List<IState> states = new List<IState>();
+        protected virtual bool IsDebug
+        {
+            get { return false; }
+        }
 
-        private IState currentState;
-        public IState CurrentState { get { return currentState; } }
+        private List<BaseState> states = new List<BaseState>();
+
+        private BaseState currentState;
+        public BaseState CurrentState { get { return currentState; } }
 
         public BaseStateMachine(Type currentState)
         {
-            this.currentState = Activator.CreateInstance(currentState) as IState;
-            var state = CurrentState as BaseState;
+            this.currentState = Activator.CreateInstance(currentState) as BaseState;
+            var state = CurrentState;
             state.StateMachine = this;
             this.currentState.InitTransition();
         }
 
         public void Update(float deltaTime)
         {
-            (currentState as BaseState).CheckTransition();//进行状态转移
+            currentState.CheckTransition();//进行状态转移
             currentState.Update(deltaTime);
+            
+            if(IsDebug)
+            {
+                Debug.Log(currentState.ToString());
+            }
         }
-        public IState HandleSwitch<T>() where T : BaseState, IState, new()
+        public T HandleSwitch<T>() where T : BaseState, IState, new()
         {
             var state = GetState<T>();
             if (state.Equals(currentState))
@@ -101,24 +127,23 @@ namespace Lavender
             currentState.Exit(null);
             currentState = state;
             currentState.Enter(null);
-            return state;
+            return state ;
         }
 
-        public IState GetState<T>() where T : BaseState, IState, new()
+        public T GetState<T>() where T : BaseState, new()
         {
             for(int i = 0; i < states.Count; i++)
             {
                 if(typeof(T) == states[i].GetType())
                 {
-                    return states[i];
+                    return states[i] as T;
                 }
             }
-            var state = new T() as BaseState;
+            var state = new T();
             state.StateMachine = this;
-            var iState = state as IState;
-            iState.InitTransition();
-            states.Add(iState);
-            return iState;
+            state.InitTransition();
+            states.Add(state);
+            return state;
         }
     }
 }

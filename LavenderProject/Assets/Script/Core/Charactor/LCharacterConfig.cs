@@ -17,8 +17,13 @@ namespace Lavender
         private int attack = 1, hp = 100, mp = 100;
         [SerializeField]
         private GameObject model;
+        [SerializeField]
+        private LAnimConfig animConfig;
+
 
         public GameObject Model { get { return model; } }
+
+        public LAnimConfig AnimConfig { get { return animConfig; } }
 
         public float Speed
         {

@@ -11,11 +11,22 @@ namespace Lavender
     /// </summary>
     public class LComponent
     {
-        public LEntity Entity { get; set; }
-
-        public virtual void OnAttach(LEntity entity)
+        public LGameObject GO { get; set; }
+        public LEntity Entity
         {
-            Entity = entity;
+            get
+            {
+                return GO as LEntity;
+            }
+            set
+            {
+                GO = value;
+            }
+        }
+
+        public virtual void OnAttach(LGameObject go)
+        {
+            GO = go;
         }
 
         public virtual void Update(float delta)

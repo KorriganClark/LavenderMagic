@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
+using System.Diagnostics;
 
 namespace Lavender
 {
     public class MoveStateMachine : BaseStateMachine
     {
+        protected override bool IsDebug
+        {
+            get { return false; }
+        }
+
         public MoveStateMachine(Type currentState, LEntity entity) : base(currentState)
         {
             Entity = entity;
@@ -27,12 +27,31 @@ namespace Lavender
         public LMoveComponent MoveComponent { get { return (StateMachine as MoveStateMachine)?.Entity?.GetComponent<LMoveComponent>(); } }
         public LAttrComponent AttrComponent { get { return (StateMachine as MoveStateMachine)?.Entity?.GetComponent<LAttrComponent>(); } }
 
+        public void AddJumpAndFallTransition()
+        {
+            AddTransition<StateJump>(() =>
+            {
+                if(AttrComponent.GetAttr(EAttrType.ReadyToJump, true) == 1)
+                {
+                    return true;
+                }
+                return false;
+            });
+            AddTransition<StateFall>(() =>
+            {
+                if (!MoveComponent.MoveController.isGrounded)
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
 
     }
 
     public class StateIdle : MoveState, IState
     {
-        public void InitTransition()
+        public override void InitTransition()
         {
             AddTransition<StateWalk>(() =>
             {
@@ -42,26 +61,20 @@ namespace Lavender
                 }
                 return false;
             });
-        }
-        
-        public void Enter(object param)
-        {
-            
+            AddJumpAndFallTransition();
         }
 
-        public void Exit(object param)
+        public override void Enter(object param)
         {
-            return;
+            base.Enter(param);
+            AnimComponent.PlayAnim(AnimType.Idle);
         }
 
-        public void Update(float deltaTime)
-        {
-        }
     }
 
     public class StateWalk : MoveState, IState
     {
-        public void InitTransition()
+        public override void InitTransition()
         {
             AddTransition<StateIdle>(() =>
             {
@@ -71,39 +84,90 @@ namespace Lavender
                 }
                 return false;
             });
-        }
-        public void Enter(object param)
-        {
-            return;
+            AddJumpAndFallTransition();
         }
 
-        public void Exit(object param)
+        public override void Update(float deltaTime)
         {
-            return;
+            MoveComponent?.MoveForward(deltaTime);
         }
 
-        public void Update(float deltaTime)
+        public override void Enter(object param)
         {
-            MoveComponent?.MoveForward();
+            base.Enter(param);
+            AnimComponent.PlayAnim(AnimType.Walk);
         }
     }
 
-    public class JumpMove : MoveState, IState
+    public class StateJump : MoveState, IState
     {
 
-        public void Enter(object param)
+        public override void InitTransition()
         {
-            return;
+            base.InitTransition();
+            AddTransition<StateIdle>(() =>
+            {
+                if (MoveComponent.MoveController.isGrounded)
+                {
+                    return true;
+                }
+                return false;
+            });
+            AddTransition<StateFall>(() =>
+            {
+                if (MoveComponent.SpeedOnY <= 0)
+                {
+                    return true;
+                }
+                return false;
+            });
         }
 
-        public void Exit(object param)
+        public override void Enter(object param)
         {
-            return;
+            base.Enter(param);
+            AttrComponent.SetAttr(EAttrType.ReadyToJump, 0);
+            MoveComponent.Jump();
+            AnimComponent.PlayAnim(AnimType.Jump);
+
         }
 
-        public void Update(float deltaTime)
+        public override void Update(float deltaTime)
         {
-            return;
+            base.Update(deltaTime);
+            MoveComponent.UpdatePos(deltaTime, false);
+
+            //MoveComponent.UpdatePosY(deltaTime);
+            //MoveComponent.MoveForward(deltaTime);
+        }
+    }
+
+    public class StateFall : MoveState, IState
+    {
+        public override void InitTransition()
+        {
+            base.InitTransition();
+            AddTransition<StateIdle>(() =>
+            {
+                if (MoveComponent.MoveController.isGrounded)
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
+        public override void Update(float deltaTime)
+        {
+            base.Update(deltaTime);
+            MoveComponent.UpdatePos(deltaTime, false);
+            //MoveComponent.UpdatePosY(deltaTime);
+            //MoveComponent.MoveForward(deltaTime);
+        }
+
+        public override void Exit(object param)
+        {
+            base.Exit(param);
+            MoveComponent.ResetYSpeed();
         }
     }
 

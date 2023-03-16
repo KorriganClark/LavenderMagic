@@ -3,6 +3,11 @@ using UnityEngine;
 using UnityEngine.Playables;
 using System;
 using Assets.Script.Core.Entity;
+using System.ComponentModel;
+using System.Reflection;
+using YamlDotNet.Core.Tokens;
+using Unity.VisualScripting;
+using Newtonsoft.Json;
 
 namespace Lavender
 {
@@ -50,17 +55,25 @@ namespace Lavender
 
         public void DealPlayerInput(CharacterPCInput input)
         {
+            //Debug.Log(JsonConvert.SerializeObject(input));
+            
             var isMoving = input.LeftAndRightYInput != 0 || input.ForwadAndBackInput != 0;
-            if(isMoving)
+            if(!(MoveStateMachine.CurrentState is StateJump || MoveStateMachine.CurrentState is StateFall))
             {
-                AttrComponent.CurrentMoveSpeed = AttrComponent.MoveSpeed;
-                TowardsUpdate(input.ForwadAndBackInput, input.LeftAndRightYInput);
+                if (isMoving)
+                {
+                    AttrComponent.CurrentMoveSpeed = AttrComponent.MoveSpeed;
+                    TowardsUpdate(input.ForwadAndBackInput, input.LeftAndRightYInput);
+                }
+                else
+                {
+                    AttrComponent.CurrentMoveSpeed = 0;
+                }
             }
-            else
+            if (input.JumpPressInput)
             {
-                AttrComponent.CurrentMoveSpeed = 0;
+                AttrComponent.SetAttr(EAttrType.ReadyToJump, 1);
             }
-
         }
 
         public void TowardsUpdate(float verticalInput, float horizontalInput)

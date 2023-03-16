@@ -8,20 +8,15 @@ using UnityEngine;
 
 namespace Lavender
 {
-    public class LEntity
+    public class LGameObject
     {
-        private GameObject root;
+        protected GameObject root;
 
 
         public int Id;
         public string Name;
         public Dictionary<Type, LComponent> components = new Dictionary<Type, LComponent>();
         public List<Type> ComponentTypes;
-        public ScriptableObject config;
-        public GameObject Model
-        {
-            get;set;
-        }
         public GameObject Root
         {
             get
@@ -67,7 +62,7 @@ namespace Lavender
             {
                 if(!add)
                 {
-                    throw new Exception($"该Entity上没有组件{typeof(T)}");
+                    throw new Exception($"该GameObject上没有组件{typeof(T)}");
                 }
                 component = new T();
                 component.OnAttach(this);

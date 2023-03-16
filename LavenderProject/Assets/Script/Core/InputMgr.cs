@@ -21,6 +21,7 @@ namespace Lavender
             {
                 characterPCInput.ForwadAndBackInput = Input.GetAxis("Vertical");
                 characterPCInput.LeftAndRightYInput = Input.GetAxis("Horizontal");
+                characterPCInput.JumpPressInput = Input.GetButtonDown("Jump");
                 CharacterControl.DealPlayerInput(characterPCInput);
             }
         }
@@ -30,8 +31,9 @@ namespace Lavender
     {
         public float ForwadAndBackInput;
         public float LeftAndRightYInput;
-        public int EPressInput;
-        public int QPressInput;
+        public bool EPressInput;
+        public bool QPressInput;
+        public bool JumpPressInput;
     }
 
 }

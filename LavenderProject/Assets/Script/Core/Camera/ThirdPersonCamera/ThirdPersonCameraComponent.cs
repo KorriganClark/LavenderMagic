@@ -44,7 +44,7 @@ namespace Lavender
         }
         public Transform TargetTrans { get; private set; }
         public Transform CameraTrans { get; private set; }
-        public override void OnAttach(LEntity entity)
+        public override void OnAttach(LGameObject entity)
         {
             base.OnAttach(entity);
             if (CameraHoster == null)

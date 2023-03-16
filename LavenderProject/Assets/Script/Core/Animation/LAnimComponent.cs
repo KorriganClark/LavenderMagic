@@ -2,15 +2,21 @@
 using UnityEngine;
 using System;
 using UnityEngine.Playables;
+using Assets.Script.Core.Entity;
 
 namespace Lavender
 {
     [Serializable]
     public class LAnimComponent : LComponent
     {
-        //public Dictionary<string, AnimationClip> animClips;
-        public List<AnimationClip> animClips;//为了序列化，使用List。以后应当做好动作与动画的映射
+        public LAnimConfig animConfig;
         PlayableGraph playableGraph;
+
+        public override void OnAttach(LGameObject go)
+        {
+            base.OnAttach(go);
+            animConfig = (go as LCharacter).Config.AnimConfig;
+        }
 
         private Animator EntityAnimator
         {
@@ -37,9 +43,9 @@ namespace Lavender
         /// </summary>
         /// <param name="animator"></param>
         /// <param name="animType"></param>
-        public void PlayAnim(int animType)
+        public void PlayAnim(AnimType animType)
         {
-            AnimationPlayableUtilities.PlayClip(EntityAnimator, animClips[animType], out playableGraph);
+            AnimationPlayableUtilities.PlayClip(EntityAnimator, animConfig.GetAnim(animType), out playableGraph);
         }
     }
 }

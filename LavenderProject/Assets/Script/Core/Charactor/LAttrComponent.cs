@@ -18,13 +18,14 @@ namespace Lavender
         Attack = 5,
         CanMove = 6,
         CurrentMoveSpeed = 7,
+        ReadyToJump = 8,
     }
 
     //实体移动组件
     public partial class LAttrComponent : LComponent
     {
         public Dictionary<EAttrType,int> AttrDic = new Dictionary<EAttrType,int>();
-        public override void OnAttach(LEntity entity)
+        public override void OnAttach(LGameObject entity)
         {
             base.OnAttach(entity);
             if(entity is LCharacter)
@@ -77,6 +78,7 @@ namespace Lavender
             SetAttr(EAttrType.MP, config.MP);
             SetAttr(EAttrType.Attack, config.Attack);
             SetAttr(EAttrType.CanMove, 1);
+            SetAttr(EAttrType.ReadyToJump, 0);
         }
     }
 }
