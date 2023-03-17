@@ -18,3 +18,4 @@ MonoBehaviour:
   hp: 100
   mp: 100
   model: {fileID: 100314, guid: 0e20b8ed353fb70479f8ade222768e81, type: 3}
+  animConfig: {fileID: 11400000, guid: 494cf4617a7ff0f4bb4b1130335acde1, type: 2}

@@ -20,11 +20,8 @@ namespace Lavender
         [SerializeField]
         private LAnimConfig animConfig;
 
-
         public GameObject Model { get { return model; } }
-
         public LAnimConfig AnimConfig { get { return animConfig; } }
-
         public float Speed
         {
             get
@@ -32,7 +29,6 @@ namespace Lavender
                 return speed;
             }
         }
-
         public float JumpHigh
         {
             get
@@ -47,7 +43,6 @@ namespace Lavender
                 return attack;
             }
         }
-
         public int HP
         {
             get
@@ -55,7 +50,6 @@ namespace Lavender
                 return hp;
             }
         }
-
         public int MP
         {
             get

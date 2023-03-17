@@ -11,9 +11,6 @@ using Newtonsoft.Json;
 
 namespace Lavender
 {
-
-
-
     [Serializable]
     public class LCharacterControl : LSingleton<LCharacterControl>
     {
