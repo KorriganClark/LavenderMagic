@@ -15,6 +15,7 @@ namespace Lavender
     public class LCharacterControl : LSingleton<LCharacterControl>
     {
         private LAttrComponent attrComponent;
+        private LBattleComponent battleComponent;
         public LEntity Entity { get; private set; }
 
         public LCharacter Character { get { return Entity as LCharacter; } }
@@ -35,6 +36,21 @@ namespace Lavender
                 return attrComponent;
             }
         }
+        public LBattleComponent BattleComponent
+        {
+            get
+            {
+                if (battleComponent == null)
+                {
+                    battleComponent = Entity.GetComponent<LBattleComponent>();
+                    if (battleComponent == null)
+                    {
+                        throw new Exception("No Battle");
+                    }
+                }
+                return battleComponent;
+            }
+        }
         public void Init()
         {
             MoveStateMachine = new MoveStateMachine(typeof(StateIdle), Entity);
@@ -52,15 +68,13 @@ namespace Lavender
 
         public void DealPlayerInput(CharacterPCInput input)
         {
-            //Debug.Log(JsonConvert.SerializeObject(input));
-            
-            var isMoving = input.LeftAndRightYInput != 0 || input.ForwadAndBackInput != 0;
+            var isMoving = input.LeftAndRightInput != 0 || input.ForwadAndBackInput != 0;
             if(!(MoveStateMachine.CurrentState is StateJump || MoveStateMachine.CurrentState is StateFall))
             {
                 if (isMoving)
                 {
                     AttrComponent.CurrentMoveSpeed = AttrComponent.MoveSpeed;
-                    TowardsUpdate(input.ForwadAndBackInput, input.LeftAndRightYInput);
+                    TowardsUpdate(input.ForwadAndBackInput, input.LeftAndRightInput);
                 }
                 else
                 {
@@ -69,7 +83,13 @@ namespace Lavender
             }
             if (input.JumpPressInput)
             {
-                AttrComponent.SetAttr(EAttrType.ReadyToJump, 1);
+                MoveStateMachine.AddRequest(EStateRequest.Jump);
+            }
+
+            if(input.MouseLeftClick)
+            {
+                BattleComponent.AddRequest(ESkillKey.NormalAttack);
+                MoveStateMachine.AddRequest(EStateRequest.Battle);
             }
         }
 
@@ -77,7 +97,6 @@ namespace Lavender
         {
             Vector3 cameraToward = Entity.GetComponent<ThirdPersonCameraComponent>().CameraTrans.forward;
             cameraToward.y = 0;
-            //float mo = MathF.Sqrt(verticalInput * verticalInput + horizontalInput * horizontalInput);
             var res = new Vector3(verticalInput * cameraToward.x + horizontalInput * cameraToward.z, 0,
                                   verticalInput * cameraToward.z - horizontalInput * cameraToward.x);
             Entity.Model.transform.forward = res.normalized;

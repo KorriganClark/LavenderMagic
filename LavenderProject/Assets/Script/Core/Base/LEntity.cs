@@ -16,5 +16,7 @@ namespace Lavender
             get;set;
         }
 
+        public Vector3 Position { get { return Root.transform.position; } }
+
     }
 }

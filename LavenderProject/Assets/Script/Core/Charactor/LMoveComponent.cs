@@ -68,8 +68,6 @@ namespace Lavender
                 return (float)(AttrComponent?.JumpAbility);
             }
         }
-
-
         public float FallingAcceleration
         {
             get
@@ -77,7 +75,6 @@ namespace Lavender
                 return 9.8f;
             }
         }
-
         public float SpeedOnY { get; set; } = 0f;
         public bool CanMove
         {
@@ -120,14 +117,11 @@ namespace Lavender
 
         public void MoveForward(float deltaTime)
         {
-
-
             Vector3 toward = Entity.Model.transform.forward;
             toward.y = 0f;
             toward.Normalize();
             Vector3 move = toward * MoveSpeed * deltaTime;
             MoveEntity(move);
-            Debug.Log(move);
         }
 
         public void Jump()

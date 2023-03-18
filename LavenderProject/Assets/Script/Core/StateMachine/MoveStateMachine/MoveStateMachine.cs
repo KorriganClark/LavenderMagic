@@ -23,15 +23,16 @@ namespace Lavender
 
     public class MoveState : BaseState
     {
-        public LAnimComponent AnimComponent { get { return (StateMachine as MoveStateMachine)?.Entity?.GetComponent<LAnimComponent>(); } }
-        public LMoveComponent MoveComponent { get { return (StateMachine as MoveStateMachine)?.Entity?.GetComponent<LMoveComponent>(); } }
-        public LAttrComponent AttrComponent { get { return (StateMachine as MoveStateMachine)?.Entity?.GetComponent<LAttrComponent>(); } }
-
+        public LEntity Entity { get { return (StateMachine as MoveStateMachine)?.Entity; } }
+        public LAnimComponent AnimComponent { get { return Entity?.GetComponent<LAnimComponent>(); } }
+        public LMoveComponent MoveComponent { get { return Entity?.GetComponent<LMoveComponent>(); } }
+        public LAttrComponent AttrComponent { get { return Entity?.GetComponent<LAttrComponent>(); } }
+        public LBattleComponent BattleComponent { get { return Entity?.GetComponent<LBattleComponent>(); } }
         public void AddJumpAndFallTransition()
         {
             AddTransition<StateJump>(() =>
             {
-                if(AttrComponent.GetAttr(EAttrType.ReadyToJump, true) == 1)
+                if(currentRequest == EStateRequest.Jump)
                 {
                     return true;
                 }
@@ -47,12 +48,24 @@ namespace Lavender
             });
         }
 
+        public void AddBattleTransition()
+        {
+            AddTransition<StateBattle>(() =>
+            {
+                if (currentRequest == EStateRequest.Battle)
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     public class StateIdle : MoveState, IState
     {
         public override void InitTransition()
         {
+            base.InitTransition();
             AddTransition<StateWalk>(() =>
             {
                 if (AttrComponent?.CurrentMoveSpeed > 0)
@@ -62,6 +75,7 @@ namespace Lavender
                 return false;
             });
             AddJumpAndFallTransition();
+            AddBattleTransition();
         }
 
         public override void Enter(object param)
@@ -76,6 +90,7 @@ namespace Lavender
     {
         public override void InitTransition()
         {
+            base.InitTransition();
             AddTransition<StateIdle>(() =>
             {
                 if (AttrComponent?.CurrentMoveSpeed <= 0)
@@ -85,6 +100,7 @@ namespace Lavender
                 return false;
             });
             AddJumpAndFallTransition();
+            AddBattleTransition();
         }
 
         public override void Update(float deltaTime)
@@ -126,7 +142,7 @@ namespace Lavender
         public override void Enter(object param)
         {
             base.Enter(param);
-            AttrComponent.SetAttr(EAttrType.ReadyToJump, 0);
+            AttrComponent.SetAttr(EAttrType.JumpRequest, 0);
             MoveComponent.Jump();
             AnimComponent.PlayAnim(AnimType.Jump);
 
@@ -160,8 +176,6 @@ namespace Lavender
         {
             base.Update(deltaTime);
             MoveComponent.UpdatePos(deltaTime, false);
-            //MoveComponent.UpdatePosY(deltaTime);
-            //MoveComponent.MoveForward(deltaTime);
         }
 
         public override void Exit(object param)
@@ -170,5 +184,29 @@ namespace Lavender
             MoveComponent.ResetYSpeed();
         }
     }
+
+    public class StateBattle : MoveState, IState
+    {
+        public override void InitTransition()
+        {
+            base.InitTransition();
+            AddTransition<StateIdle>(() =>
+            {
+                if (!BattleComponent.IsReleaseSkill())
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        public override void Enter(object param)
+        {
+            base.Enter(param);
+            AnimComponent.PlayAnim(AnimType.Idle);
+        }
+
+    }
+
 
 }

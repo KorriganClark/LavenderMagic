@@ -19,9 +19,12 @@ namespace Lavender
         private GameObject model;
         [SerializeField]
         private LAnimConfig animConfig;
+        [SerializeField]
+        private LSkillConfig normalAttack;
 
         public GameObject Model { get { return model; } }
         public LAnimConfig AnimConfig { get { return animConfig; } }
+        public LSkillConfig NormalAttack { get { return normalAttack; } }
         public float Speed
         {
             get

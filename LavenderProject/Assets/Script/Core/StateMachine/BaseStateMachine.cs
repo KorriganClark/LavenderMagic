@@ -38,12 +38,16 @@ namespace Lavender
     /// </summary>
     public class BaseState : IState
     {
+        protected EStateRequest currentRequest;
         public BaseStateMachine StateMachine { get; set; }
         public Dictionary<TransitionHandler, Type> transitionHandlers = new Dictionary<TransitionHandler, Type>();
         /// <summary>
         /// 构建转移函数
         /// </summary>
-        public virtual void InitTransition() { }
+        public virtual void InitTransition() 
+        {
+            currentRequest = StateMachine.CurrentRequest;
+        }
 
         public void AddTransition<T>(TransitionHandler handler) where T : BaseState, IState, new()
         {
@@ -82,7 +86,12 @@ namespace Lavender
         }
     }
 
-
+    public enum EStateRequest
+    {
+        None,
+        Jump,
+        Battle
+    }
 
     /// <summary>
     /// 状态机基类
@@ -95,10 +104,21 @@ namespace Lavender
         }
 
         private List<BaseState> states = new List<BaseState>();
-
+        private Queue<EStateRequest> requests = new Queue<EStateRequest>();
         private BaseState currentState;
         public BaseState CurrentState { get { return currentState; } }
-
+        public EStateRequest CurrentRequest 
+        { 
+            get
+            {
+                if(requests.Count == 0)
+                {
+                    return EStateRequest.None;
+                }
+                return requests.Dequeue(); 
+            }
+        }
+        
         public BaseStateMachine(Type currentState)
         {
             this.currentState = Activator.CreateInstance(currentState) as BaseState;
@@ -106,7 +126,10 @@ namespace Lavender
             state.StateMachine = this;
             this.currentState.InitTransition();
         }
-
+        public void AddRequest(EStateRequest request)
+        {
+            requests.Enqueue(request);
+        }
         public void Update(float deltaTime)
         {
             currentState.CheckTransition();//进行状态转移

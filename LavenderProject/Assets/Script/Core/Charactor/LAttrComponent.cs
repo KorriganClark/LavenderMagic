@@ -18,7 +18,7 @@ namespace Lavender
         Attack = 5,
         CanMove = 6,
         CurrentMoveSpeed = 7,
-        ReadyToJump = 8,
+        JumpRequest = 8,
     }
 
     //实体移动组件
@@ -78,7 +78,7 @@ namespace Lavender
             SetAttr(EAttrType.MP, config.MP);
             SetAttr(EAttrType.Attack, config.Attack);
             SetAttr(EAttrType.CanMove, 1);
-            SetAttr(EAttrType.ReadyToJump, 0);
+            SetAttr(EAttrType.JumpRequest, 0);
         }
     }
 }

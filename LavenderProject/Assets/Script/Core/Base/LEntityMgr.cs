@@ -29,5 +29,19 @@ namespace Lavender
                 entityList[i].Update(delta);
             }
         }
+
+        public List<LEntity> GetEntitysByPos(Vector3 centerPosition, float radius)
+        {
+            List<LEntity> res = new List<LEntity>();
+            foreach(var entity in entityList)
+            {
+                var pos = entity.Root.transform.position;
+                if (Vector3.Distance(pos, centerPosition) <= radius)
+                {
+                    res.Add(entity);
+                }
+            }
+            return res;
+        }
     }
 }

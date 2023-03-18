@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb2308cdcc45d024281549b0fa0e4381, type: 3}
+  m_Name: NormalAttack
+  m_EditorClassIdentifier: 
+  skillID: 1
+  skillName: "\u666E\u901A\u653B\u51FB"
+  skillDescription: "\u975E\u5E38\u666E\u901A\u7684\u653B\u51FB"
+  damage: 10
+  totalTime: 2
+  animationClip: {fileID: 7400000, guid: c2976fa7ea9c6844ca1d7042aef0a731, type: 3}
+  skillEffects:
+  - {fileID: 11400000, guid: 01d7c9b1addc4b9458f5862a9ec760ad, type: 2}

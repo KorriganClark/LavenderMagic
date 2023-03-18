@@ -19,6 +19,7 @@ namespace Assets.Script.Core.Entity
                 typeof(LMoveComponent),
                 typeof(LAnimComponent),
                 typeof(LAttrComponent),
+                typeof(LBattleComponent),
             };
 
             Config = config as LCharacterConfig;

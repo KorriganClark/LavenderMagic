@@ -20,8 +20,9 @@ namespace Lavender
             if(CharacterControl != null)
             {
                 characterPCInput.ForwadAndBackInput = Input.GetAxis("Vertical");
-                characterPCInput.LeftAndRightYInput = Input.GetAxis("Horizontal");
+                characterPCInput.LeftAndRightInput = Input.GetAxis("Horizontal");
                 characterPCInput.JumpPressInput = Input.GetButtonDown("Jump");
+                characterPCInput.MouseLeftClick = Input.GetMouseButtonDown(0);
                 CharacterControl.DealPlayerInput(characterPCInput);
             }
         }
@@ -30,10 +31,11 @@ namespace Lavender
     public struct CharacterPCInput
     {
         public float ForwadAndBackInput;
-        public float LeftAndRightYInput;
+        public float LeftAndRightInput;
         public bool EPressInput;
         public bool QPressInput;
         public bool JumpPressInput;
+        public bool MouseLeftClick;
     }
 
 }

@@ -7,14 +7,71 @@ using Unity.VisualScripting;
 
 namespace Lavender
 {
+    public enum ESkillKey
+    {
+        NormalAttack,
+        ElementalSkill,
+        ElementalExplosion
+    }
+
     public class LBattleComponent : LComponent
     {
 
-        public BuffProcessor Processor { get { return BuffProcessor.Instance; } }
+        private BuffProcessor processor { get { return BuffProcessor.Instance; } }
 
-        public List<LSkill> skills = new List<LSkill>();
+        private Dictionary<ESkillKey, LSkill> skills = new Dictionary<ESkillKey, LSkill>();
 
-        public List<LBuff> buffs = new List<LBuff>();
+        private List<LBuff> buffs = new List<LBuff>();
+
+        private Queue<LSkillInstance> skillQueue = new Queue<LSkillInstance>();
+
+        private Queue<ESkillKey> skillRequest = new Queue<ESkillKey>();
+        public bool IsReleaseSkill()
+        {
+            return skillQueue.Count > 0;
+        }
+
+        public void AddRequest(ESkillKey skillKey)
+        {
+            if(skillRequest.Count == 0) { skillRequest.Enqueue(skillKey); }
+        }
+
+        #region Skill
+
+        public void InitSkillConfig(LCharacterConfig config)
+        {
+            skills[ESkillKey.NormalAttack] = new LSkill(Entity, config.NormalAttack);
+        }
+
+        public void UseSkill(ESkillKey key)
+        {
+            if(skills.TryGetValue(key, out LSkill skill)) 
+            {
+                //暂时只允许一个技能
+                if(skillQueue.Count <= 0)
+                {
+                    skillQueue.Enqueue(skill.CreateInstance());
+                }
+            }
+        }
+
+        public override void Update(float delta)
+        {
+            base.Update(delta);
+            LSkillInstance skillInstance = skillQueue.Peek();
+            skillInstance.Update(delta);
+            if(skillInstance.OutOfTime)
+            {
+                skillQueue.Dequeue();
+            }
+        }
+
+
+        #endregion 
+
+
+
+        #region Buff
 
         public void RequestAddBuffToOther(LBuff buff, LEntity target)
         {
@@ -35,11 +92,12 @@ namespace Lavender
         
         public void ApplyBuff(LBuff buff)
         {
-            Processor.ProcessBuff(buff);
+            processor.ProcessBuff(buff);
             if (buff.RemoveAfterApply)
             {
                 RemoveBuff(buff);
             }
         }
+        #endregion
     }
 }
