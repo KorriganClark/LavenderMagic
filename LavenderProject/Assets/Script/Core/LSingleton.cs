@@ -8,11 +8,11 @@ namespace Lavender
 {
     public abstract class LSingleton<T> where T : class
     {
+        private static T instance = null;
         class Nested
         {
             internal static readonly T instance = Activator.CreateInstance(typeof(T), true) as T;
         }
-        private static T instance = null;
         public static T Instance { get { return Nested.instance; } }
     }
 }

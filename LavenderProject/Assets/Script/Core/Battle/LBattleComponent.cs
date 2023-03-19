@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Assets.Script.Core.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Lavender
 {
@@ -36,11 +38,26 @@ namespace Lavender
             if(skillRequest.Count == 0) { skillRequest.Enqueue(skillKey); }
         }
 
+        public override void OnAttach(LGameObject go)
+        {
+            base.OnAttach(go);
+            if(go is LCharacter)
+            {
+                var character = go as LCharacter;
+                InitSkillConfig(character.Config);
+            }
+        }
+
         #region Skill
 
         public void InitSkillConfig(LCharacterConfig config)
         {
             skills[ESkillKey.NormalAttack] = new LSkill(Entity, config.NormalAttack);
+        }
+
+        public LSkill GetSkillByKey(ESkillKey skillKey)
+        {
+            return skills[skillKey];
         }
 
         public void UseSkill(ESkillKey key)
@@ -58,6 +75,10 @@ namespace Lavender
         public override void Update(float delta)
         {
             base.Update(delta);
+            if(skillQueue.Count <= 0)
+            {
+                return;
+            }
             LSkillInstance skillInstance = skillQueue.Peek();
             skillInstance.Update(delta);
             if(skillInstance.OutOfTime)

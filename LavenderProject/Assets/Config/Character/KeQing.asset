@@ -19,3 +19,4 @@ MonoBehaviour:
   mp: 100
   model: {fileID: 100314, guid: 0e20b8ed353fb70479f8ade222768e81, type: 3}
   animConfig: {fileID: 11400000, guid: 494cf4617a7ff0f4bb4b1130335acde1, type: 2}
+  normalAttack: {fileID: 11400000, guid: 1cdb12cd2a38019458aa90adc7897c5e, type: 2}

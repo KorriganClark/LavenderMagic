@@ -20,7 +20,7 @@ namespace Lavender
 
         public LCharacter Character { get { return Entity as LCharacter; } }
 
-        public MoveStateMachine MoveStateMachine { get; private set; }
+        public RootStateMachine RootStateMachine { get; private set; }
         public LAttrComponent AttrComponent
         {
             get
@@ -53,7 +53,8 @@ namespace Lavender
         }
         public void Init()
         {
-            MoveStateMachine = new MoveStateMachine(typeof(StateIdle), Entity);
+            RootStateMachine = new RootStateMachine();
+            RootStateMachine.Start(Entity);
             var camera = Entity.AddComponent<ThirdPersonCameraComponent>();
             InputMgr.Instance.Camera = camera;
             InputMgr.Instance.CharacterControl = this;
@@ -69,7 +70,7 @@ namespace Lavender
         public void DealPlayerInput(CharacterPCInput input)
         {
             var isMoving = input.LeftAndRightInput != 0 || input.ForwadAndBackInput != 0;
-            if(!(MoveStateMachine.CurrentState is StateJump || MoveStateMachine.CurrentState is StateFall))
+            if(!(RootStateMachine.CurrentState is StateJump || RootStateMachine.CurrentState is StateFall))
             {
                 if (isMoving)
                 {
@@ -83,13 +84,13 @@ namespace Lavender
             }
             if (input.JumpPressInput)
             {
-                MoveStateMachine.AddRequest(EStateRequest.Jump);
+                RootStateMachine.AddRequest(EStateRequest.Jump);
             }
 
             if(input.MouseLeftClick)
             {
-                BattleComponent.AddRequest(ESkillKey.NormalAttack);
-                MoveStateMachine.AddRequest(EStateRequest.Battle);
+                //BattleComponent.AddRequest(ESkillKey.NormalAttack);
+                RootStateMachine.AddRequest(EStateRequest.NormalAttack);
             }
         }
 
@@ -99,14 +100,16 @@ namespace Lavender
             cameraToward.y = 0;
             var res = new Vector3(verticalInput * cameraToward.x + horizontalInput * cameraToward.z, 0,
                                   verticalInput * cameraToward.z - horizontalInput * cameraToward.x);
-            Entity.Model.transform.forward = res.normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(res.normalized, Vector3.up);
+            Entity.Model.transform.rotation = Quaternion.Lerp(Entity.Model.transform.rotation, targetRotation,
+         Time.deltaTime * 10);
         }
 
         public void Update(float dt)
         {
-            if (MoveStateMachine != null)
+            if (RootStateMachine != null)
             {
-                MoveStateMachine.Update(dt);
+                RootStateMachine.Update(dt);
             }
         }
     }

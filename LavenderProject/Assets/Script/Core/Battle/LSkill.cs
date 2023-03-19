@@ -26,8 +26,5 @@ namespace Lavender
             instance.Skill = this;
             return instance;
         }
-
-        
-        
     }
 }
