@@ -203,7 +203,7 @@ namespace Lavender
         public override void Enter(object param)
         {
             base.Enter(param);
-            AnimComponent.PlayAnim(AnimType.Idle);
+            AnimComponent.PlayAnim(AnimType.Attack);
         }
 
     }
