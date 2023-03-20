@@ -20,6 +20,11 @@ namespace Lavender
             HandleSwitch<StateIdle>();
             isWorking = true;
         }
+
+        public override void Update(float deltaTime)
+        {
+            base.Update(deltaTime);
+        }
     }
 
     public class MoveState : BaseState<string>
@@ -33,7 +38,7 @@ namespace Lavender
         {
             AddTransition<StateJump>(() =>
             {
-                if(currentRequest == EStateRequest.Jump)
+                if(CurrentRequest == EStateRequest.Jump)
                 {
                     return true;
                 }
@@ -53,7 +58,7 @@ namespace Lavender
         {
             AddTransition<BattleStateMachine>(() =>
             {
-                if (currentRequest == EStateRequest.NormalAttack)
+                if (CurrentRequest == EStateRequest.NormalAttack)
                 {
                     return true;
                 }

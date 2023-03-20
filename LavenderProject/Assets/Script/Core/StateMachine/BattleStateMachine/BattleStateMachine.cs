@@ -30,6 +30,7 @@ namespace Lavender
         public override void Enter()
         {
             base.Enter();
+            AddRequest(StateMachine.CurrentRequest);
             HandleSwitch<BattleEnterState>();
             isWorking = true;
         }
@@ -47,7 +48,7 @@ namespace Lavender
             var id = BattleComponent.GetSkillByKey(ESkillKey.NormalAttack).Config.SkillID;
             AddTransition<SkillState>(() =>
             {
-                if (currentRequest == EStateRequest.NormalAttack)
+                if (CurrentRequest == EStateRequest.NormalAttack)
                 {
                     return true;
                 }
@@ -63,7 +64,7 @@ namespace Lavender
 
     public class SkillState : BaseState<int>
     {
-        public LEntity Entity { get { return (StateMachine as RootStateMachine)?.Entity; } }
+        public LEntity Entity { get { return (StateMachine as BattleStateMachine)?.Entity; } }
         public LBattleComponent BattleComponent { get { return Entity?.GetComponent<LBattleComponent>(); } }
         public LSkill Skill { get; set; }
         public LSkillConfig Config { get { return Skill.Config; } }

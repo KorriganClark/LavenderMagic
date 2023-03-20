@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 namespace Lavender
@@ -38,17 +39,43 @@ namespace Lavender
     /// </summary>
     public class BaseState<TStateID> : IState
     {
-        protected EStateRequest currentRequest;
         /// <summary>
         /// 转移函数
         /// </summary>
         private Dictionary<TransitionHandler, TStateID> transitionHandlers = new Dictionary<TransitionHandler, TStateID>();
-        private Dictionary<TStateID, Type> transitionTypes = new Dictionary<TStateID, Type>(); 
+        private Dictionary<TStateID, Type> transitionTypes = new Dictionary<TStateID, Type>();
+
+        protected Queue<EStateRequest> requests = new Queue<EStateRequest>();
         public virtual TStateID ID { get; private set; }
         /// <summary>
         /// 归属的状态机
         /// </summary>
         public IStateMachine<TStateID> StateMachine { get; set; }
+        /// <summary>
+        /// 当前的请求
+        /// </summary>
+        public EStateRequest CurrentRequest
+        {
+            get
+            {
+                if (requests.Count == 0)
+                {
+                    return EStateRequest.None;
+                }
+                return requests.Peek();
+            }
+        }
+        public void AddRequest(EStateRequest request)
+        {
+            requests.Enqueue(request);
+        }
+        public void RemoveRequest()
+        {
+            if (requests.Count > 0)
+            {
+                requests.Dequeue();
+            }
+        }
         /// <summary>
         /// 初始化，根据唯一ID进行相应配置
         /// </summary>
@@ -79,20 +106,15 @@ namespace Lavender
         public void CheckTransition()
         {
             if (StateMachine == null) { return; }
-            if(!(this is IStateMachine<TStateID>))//子状态机不直接处理请求
-            {
-                currentRequest = StateMachine.CurrentRequest;
-            }
+            RemoveRequest();//删除上一次的请求，之所以放这里，是为了扩大request的周期，使子状态能接收到请求
+            AddRequest(StateMachine.CurrentRequest);
             MethodInfo mi;
             foreach (var pair in transitionHandlers)
             {
                 var handler = pair.Key;
                 if (handler())
                 {
-                    if (currentRequest != EStateRequest.None)
-                    {
-                        StateMachine.AddRequest(currentRequest);//给下一个状态或子状态机使用
-                    }
+
                     //大量性能浪费，可以将mi存储起来，以 MethodInfo为值来构建Dic
                     mi = StateMachine.GetType().GetMethod("HandleSwitch", new Type[] {typeof(TStateID)}).MakeGenericMethod( transitionTypes[pair.Value]);
                     mi.Invoke(StateMachine, new object[] { pair.Value });
@@ -129,6 +151,7 @@ namespace Lavender
     {
         EStateRequest CurrentRequest { get; }
         void AddRequest(EStateRequest request);
+        void RemoveRequest();
         T HandleSwitch<T>() where T : BaseState<TChildStateID>, IState, new();
         T HandleSwitch<T>(TChildStateID childStateID) where T : BaseState<TChildStateID>, IState, new();
         T GetState<T>() where T : BaseState<TChildStateID>, new();
@@ -153,7 +176,6 @@ namespace Lavender
 
         private Dictionary<TChildStateID, BaseState<TChildStateID>> states = new Dictionary<TChildStateID, BaseState<TChildStateID>> ();
         //private List<BaseState<TStateID>> states = new List<BaseState<TStateID>>();
-        private Queue<EStateRequest> requests = new Queue<EStateRequest>();
         private BaseState<TChildStateID> currentState;
         private BaseState<TChildStateID> lastState;
         protected bool isWorking = false;
@@ -161,18 +183,6 @@ namespace Lavender
         public BaseState<TChildStateID> CurrentState { get { return currentState; } }
         public BaseState<TChildStateID> LastState { get { return lastState; } }
         public bool IsRootMachine { get { return StateMachine == null; } }
-        public EStateRequest CurrentRequest 
-        { 
-            get
-            {
-                if(requests.Count == 0)
-                {
-                    return EStateRequest.None;
-                }
-                return requests.Dequeue(); 
-            }
-        }
-
         public override void Update(float deltaTime)
         {
             if(!Working)
@@ -181,17 +191,17 @@ namespace Lavender
             }
             currentState.CheckTransition();//进行状态转移
             currentState.Update(deltaTime);
-            
-            if(IsDebug)
+            if (IsRootMachine)
+            {
+                RemoveRequest();//Root不会进行CheckTransition，需要手动清除请求
+            }
+            if (IsDebug)
             {
                 Debug.Log(currentState.ToString());
             }
         }
 
-        public void AddRequest(EStateRequest request)
-        {
-            requests.Enqueue(request);
-        }
+
         public T HandleSwitch<T>() where T : BaseState<TChildStateID>, IState, new()
         {
             return HandleSwitch<T>(default(TChildStateID));
@@ -238,7 +248,7 @@ namespace Lavender
             if(!states.TryGetValue(stateID, out state))
             {
                 state = new T();
-                states.Add(state.ID, state);
+                states.Add(stateID, state);
                 state.StateMachine = this;
                 state.Init(stateID);
                 state.InitTransition();
