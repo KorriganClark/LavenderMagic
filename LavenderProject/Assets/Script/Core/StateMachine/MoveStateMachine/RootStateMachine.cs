@@ -7,7 +7,7 @@ namespace Lavender
     {
         protected override bool IsDebug
         {
-            get { return true; }
+            get { return false; }
         }
 
         public LEntity Entity { get; private set; }

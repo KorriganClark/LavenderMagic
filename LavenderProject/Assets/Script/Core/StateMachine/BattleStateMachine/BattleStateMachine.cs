@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static UnityEngine.EventSystems.EventTrigger;
+﻿
+using UnityEngine;
 
 namespace Lavender
 {
@@ -17,9 +13,10 @@ namespace Lavender
         public override void InitTransition()
         {
             base.InitTransition();
+            
             AddTransition<StateIdle>(() =>
             {
-                if (!BattleComponent.IsReleaseSkill())
+                if (CurrentState is BattleExitState)
                 {
                     return true;
                 }
@@ -34,6 +31,11 @@ namespace Lavender
             HandleSwitch<BattleEnterState>();
             isWorking = true;
         }
+
+        public override void Exit()
+        {
+            base.Exit();
+        }
     }
 
     public class BattleEnterState : BaseState<int>
@@ -44,7 +46,6 @@ namespace Lavender
         public override void InitTransition()
         {
             base.InitTransition();
-            //for(int i= 0; i < BattleComponent.GetSkillByKey()
             var id = BattleComponent.GetSkillByKey(ESkillKey.NormalAttack).Config.SkillID;
             AddTransition<SkillState>(() =>
             {
@@ -68,11 +69,56 @@ namespace Lavender
         public LBattleComponent BattleComponent { get { return Entity?.GetComponent<LBattleComponent>(); } }
         public LSkill Skill { get; set; }
         public LSkillConfig Config { get { return Skill.Config; } }
+        public LSkillInstance Instance { get; set; }
         public override void Init(int ID)
         {
             base.Init(ID);
             Skill = BattleComponent.GetSkillByKey(ESkillKey.NormalAttack);
         }
+
+        public override void InitTransition()
+        {
+            base.InitTransition();
+            AddTransition<BattleExitState>(() =>
+            {
+                if (Instance != null && Instance.OutOfTime)
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            Debug.Log("SkillStateEnter");
+            Instance = BattleComponent.UseSkill(Skill);
+        }
+
+        public override void Update(float deltaTime)
+        {
+            base.Update(deltaTime);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            Instance = null;
+            Debug.Log("SkillStateExit");
+
+        }
+
+        public bool CanBeInterrupt()
+        {
+            return false;
+        }
+
+        public bool IsOver()
+        {
+            return Instance.OutOfTime;
+        }
+
     }
 
 

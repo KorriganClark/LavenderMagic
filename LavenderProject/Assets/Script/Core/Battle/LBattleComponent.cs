@@ -26,17 +26,11 @@ namespace Lavender
         private List<LBuff> buffs = new List<LBuff>();
 
         private Queue<LSkillInstance> skillQueue = new Queue<LSkillInstance>();
-
-        private Queue<ESkillKey> skillRequest = new Queue<ESkillKey>();
         public bool IsReleaseSkill()
         {
             return skillQueue.Count > 0;
         }
 
-        public void AddRequest(ESkillKey skillKey)
-        {
-            if(skillRequest.Count == 0) { skillRequest.Enqueue(skillKey); }
-        }
 
         public override void OnAttach(LGameObject go)
         {
@@ -70,6 +64,18 @@ namespace Lavender
                     skillQueue.Enqueue(skill.CreateInstance());
                 }
             }
+        }
+
+        public LSkillInstance UseSkill(LSkill skill)
+        {
+            //暂时只允许一个技能
+            if (skillQueue.Count <= 0)
+            {
+                var instance = skill.CreateInstance();
+                skillQueue.Enqueue(instance);
+                return instance;
+            }
+            return null;
         }
 
         public override void Update(float delta)

@@ -25,7 +25,8 @@ namespace Lavender
         private AnimationClip animationClip;
         [SerializeField]
         private List<LSkillEffect> skillEffects = new List<LSkillEffect>();
-
+        [SerializeField]
+        private List<float> interruptPoint = new List<float>();
         public int SkillID { get { return skillID; } }
         public string SkillName { get { return skillName; } }
         public string SkillDescription { get { return skillDescription; } }
@@ -33,5 +34,6 @@ namespace Lavender
         public float TotalTime { get { return totalTime; } }
         public AnimationClip AnimationClip { get { return animationClip; } }
         public List<LSkillEffect> SkillEffects { get { return skillEffects; } }
+        public List<float> InterruptPoint { get { return interruptPoint; } }
     }
 }
