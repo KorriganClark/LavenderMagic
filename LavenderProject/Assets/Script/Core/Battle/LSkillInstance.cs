@@ -22,5 +22,10 @@ namespace Lavender
         {
             currentTime = currentTime + deltaTime;
         }
+
+        public void StartAnim(LAnimComponent animCom) 
+        {
+            animCom.PlayAnim(Config.AnimationClip);
+        }
     }
 }

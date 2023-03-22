@@ -16,7 +16,8 @@ MonoBehaviour:
   skillName: "\u666E\u901A\u653B\u51FB"
   skillDescription: "\u975E\u5E38\u666E\u901A\u7684\u653B\u51FB"
   damage: 10
-  totalTime: 2
+  totalTime: 0.9
   animationClip: {fileID: 7400000, guid: c2976fa7ea9c6844ca1d7042aef0a731, type: 3}
   skillEffects:
   - {fileID: 11400000, guid: 01d7c9b1addc4b9458f5862a9ec760ad, type: 2}
+  interruptPoint: []

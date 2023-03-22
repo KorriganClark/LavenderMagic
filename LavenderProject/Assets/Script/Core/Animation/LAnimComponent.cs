@@ -39,7 +39,7 @@ namespace Lavender
 
         }
         /// <summary>
-        /// 传入animator，立即播放一个动画，以后做成处理命令的接口。
+        /// 播放组件原有的Anim。
         /// </summary>
         /// <param name="animator"></param>
         /// <param name="animType"></param>
@@ -47,6 +47,17 @@ namespace Lavender
         {
             AnimationPlayableUtilities.PlayClip(EntityAnimator, animConfig.GetAnim(animType), out playableGraph);
         }
+
+        /// <summary>
+        /// 播放传入的Anim。
+        /// </summary>
+        /// <param name="animator"></param>
+        /// <param name="animType"></param>
+        public void PlayAnim(AnimationClip clip)
+        {
+            AnimationPlayableUtilities.PlayClip(EntityAnimator, clip, out playableGraph);
+        }
+
     }
 }
 

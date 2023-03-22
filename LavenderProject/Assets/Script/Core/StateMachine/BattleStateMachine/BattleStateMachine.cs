@@ -67,6 +67,7 @@ namespace Lavender
     {
         public LEntity Entity { get { return (StateMachine as BattleStateMachine)?.Entity; } }
         public LBattleComponent BattleComponent { get { return Entity?.GetComponent<LBattleComponent>(); } }
+        public LAnimComponent AnimComponent { get { return Entity?.GetComponent<LAnimComponent>(); } }
         public LSkill Skill { get; set; }
         public LSkillConfig Config { get { return Skill.Config; } }
         public LSkillInstance Instance { get; set; }
@@ -94,6 +95,7 @@ namespace Lavender
             base.Enter();
             Debug.Log("SkillStateEnter");
             Instance = BattleComponent.UseSkill(Skill);
+            Instance.StartAnim(AnimComponent);
         }
 
         public override void Update(float deltaTime)
