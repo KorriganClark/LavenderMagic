@@ -11,5 +11,7 @@ namespace Lavender
     {
         public LCharacterConfig defaultCharacterConfig;
         public Vector3 defaultPosition;
+
+        public LMonsterConfig testMonsterConfig;
     }
 }

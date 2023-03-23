@@ -2,7 +2,6 @@
 using UnityEngine;
 using System;
 using UnityEngine.Playables;
-using Assets.Script.Core.Entity;
 
 namespace Lavender
 {
@@ -15,7 +14,14 @@ namespace Lavender
         public override void OnAttach(LGameObject go)
         {
             base.OnAttach(go);
-            animConfig = (go as LCharacter).Config.AnimConfig;
+            if(go is LCharacter)
+            {
+                animConfig = (go as LCharacter).Config.AnimConfig;
+            }
+            else
+            {
+                animConfig = (go as LMonster).Config.AnimConfig;
+            }
         }
 
         private Animator EntityAnimator

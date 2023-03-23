@@ -455,7 +455,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultCharacterConfig: {fileID: 11400000, guid: f9437c7e09415b845b735c09977485fc,
     type: 2}
-  defaultPosition: {x: 0, y: 10, z: 0}
+  defaultPosition: {x: 0, y: 2.118033, z: 0}
+  testMonsterConfig: {fileID: 11400000, guid: 45d43580290882f4c9a980261b433cf4, type: 2}
 --- !u!114 &810252083
 MonoBehaviour:
   m_ObjectHideFlags: 0

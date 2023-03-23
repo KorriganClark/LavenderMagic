@@ -33,11 +33,17 @@ namespace Lavender
         {
             InitParams();
             InitComponents();
+            OnInit();
         }
         /// <summary>
         /// 设置静态参数
         /// </summary>
         public virtual void InitParams()
+        {
+
+        }
+
+        public virtual void OnInit()
         {
 
         }

@@ -93,7 +93,7 @@ namespace Lavender
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("SkillStateEnter");
+            //Debug.Log("SkillStateEnter");
             Instance = BattleComponent.UseSkill(Skill);
             Instance.StartAnim(AnimComponent);
         }
@@ -107,7 +107,7 @@ namespace Lavender
         {
             base.Exit();
             Instance = null;
-            Debug.Log("SkillStateExit");
+            //Debug.Log("SkillStateExit");
 
         }
 
