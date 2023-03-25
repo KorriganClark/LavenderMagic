@@ -65,6 +65,17 @@ namespace Lavender
                 return false;
             });
         }
+        public void AddDeadTransition()
+        {
+            AddTransition<StateDead>(() =>
+            {
+                if (AttrComponent.GetAttr(EAttrType.HP) <= 0) 
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     public class StateIdle : MoveState, IState
@@ -84,6 +95,7 @@ namespace Lavender
             });
             AddJumpAndFallTransition();
             AddBattleTransition();
+            AddDeadTransition();
         }
 
         public override void Enter()
@@ -111,6 +123,7 @@ namespace Lavender
             });
             AddJumpAndFallTransition();
             AddBattleTransition();
+            AddDeadTransition();
         }
 
         public override void Update(float deltaTime)
@@ -197,16 +210,29 @@ namespace Lavender
         }
     }
 
-    public class StateBattle : MoveState, IState
+    public class StateDead : BaseState<string>
     {
-
-
+        public override string ID => "Dead";
+        public LEntity Entity { get { return (StateMachine as RootStateMachine)?.Entity; } }
+        public LAnimComponent AnimComponent { get { return Entity?.GetComponent<LAnimComponent>(); } }
+        public LAttrComponent AttrComponent { get { return Entity?.GetComponent<LAttrComponent>(); } }
+        public LBattleComponent BattleComponent { get { return Entity?.GetComponent<LBattleComponent>(); } }
+        public float deadTime = 0;
         public override void Enter()
         {
             base.Enter();
-            AnimComponent.PlayAnim(AnimType.Attack);
+            deadTime = 0;
+            AnimComponent.PlayAnim(AnimType.Dead);
         }
-
+        public override void Update(float deltaTime)
+        {
+            base.Update(deltaTime);
+            deadTime += deltaTime;
+            if(deadTime > AnimComponent.animConfig.GetAnim(AnimType.Dead).length)
+            {
+                LEntityMgr.Instance.DestroyEntity(Entity);
+            }
+        }
     }
 
 

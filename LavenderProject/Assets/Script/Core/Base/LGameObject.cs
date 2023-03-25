@@ -98,5 +98,15 @@ namespace Lavender
             }
         }
 
+        public virtual void UnInit()
+        {
+            GameObject.Destroy(Root);
+            foreach(var pair in components)
+            {
+                pair.Value.OnDetach();
+            }
+            components.Clear();
+        }
+
     }
 }

@@ -16,7 +16,7 @@ namespace Lavender
         Run,
         Jump,
         Fall,
-        Attack
+        Dead
     }
     [Serializable]
     public class AnimTypeToClip

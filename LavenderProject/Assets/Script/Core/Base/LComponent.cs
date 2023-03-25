@@ -34,5 +34,10 @@ namespace Lavender
 
         }
 
+        public virtual void OnDetach()
+        {
+            GO = null;
+        }
+
     }
 }

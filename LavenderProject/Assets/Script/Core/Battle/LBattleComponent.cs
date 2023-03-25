@@ -25,7 +25,6 @@ namespace Lavender
             return skillQueue.Count > 0;
         }
 
-
         public override void OnAttach(LGameObject go)
         {
             base.OnAttach(go);
@@ -120,5 +119,7 @@ namespace Lavender
             }
         }
         #endregion
+
+        
     }
 }

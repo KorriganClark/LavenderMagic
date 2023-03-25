@@ -15,11 +15,22 @@ namespace Lavender
 
         public LEntity CreateEntity<T>(LEntityConfig config = null) where T : LEntity, new()
         {
-           var entity = new T();
+            var entity = new T();
             entity.Config = config;
             entityList.Add(entity);
             entity.Init();
             return entity;
+        }
+
+        public void DestroyEntity(LEntity entity)
+        {
+            entityList.Remove(entity);
+            entity.UnInit();
+            //临时
+            if(MonsterCreater.Instance.TestMonster == entity)
+            {
+                MonsterCreater.Instance.TestMonster = null;
+            }
         }
 
         public void Update(float delta)
