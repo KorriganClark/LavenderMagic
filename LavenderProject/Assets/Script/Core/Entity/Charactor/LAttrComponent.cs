@@ -10,32 +10,32 @@ namespace Lavender
 {
     public enum EAttrType
     {
-        None = 0,
-        HP = 1,
-        MP = 2,
-        MoveSpeed = 3,
-        JumpAbility = 4,
-        Attack = 5,
-        CanMove = 6,
-        CurrentMoveSpeed = 7,
-        JumpRequest = 8,
+        None,
+        HP,
+        MP,
+        MoveSpeed,
+        JumpAbility,
+        Attack,
+        CanMove,
+        CurrentMoveSpeed,
+        MaxHP,
     }
 
     //实体移动组件
     public partial class LAttrComponent : LComponent
     {
         public Dictionary<EAttrType,int> AttrDic = new Dictionary<EAttrType,int>();
-        public override void OnAttach(LGameObject entity)
+        public override void OnAttach(LGameObject go)
         {
-            base.OnAttach(entity);
-            if(entity is LCharacter)
+            base.OnAttach(go);
+            if(go is LEntity)
             {
-                var character = entity as LCharacter;
-                InitAttrByConfig(character.Config);
+                var entity = go as LEntity;
+                InitAttrByConfig(entity.Config);
             }
         }
 
-        public int GetAttr(EAttrType type, bool allowDefault = false)
+        public int GetAttr(EAttrType type, bool allowDefault = true)
         {
             int res;
             if(!AttrDic.TryGetValue(type, out res))
@@ -64,7 +64,7 @@ namespace Lavender
             SetAttr(type, (int)MathF.Floor(val * FloatTransRate));
         }
 
-        public void InitAttrByConfig(LCharacterConfig config)
+        public void InitAttrByConfig(LEntityConfig config)
         {
             if(config == null)
             {
@@ -75,10 +75,10 @@ namespace Lavender
             SetAttrFloat(EAttrType.CurrentMoveSpeed, 0);
 
             SetAttr(EAttrType.HP, config.HP);
+            SetAttr(EAttrType.MaxHP, config.HP);
             SetAttr(EAttrType.MP, config.MP);
             SetAttr(EAttrType.Attack, config.Attack);
             SetAttr(EAttrType.CanMove, 1);
-            SetAttr(EAttrType.JumpRequest, 0);
         }
     }
 }

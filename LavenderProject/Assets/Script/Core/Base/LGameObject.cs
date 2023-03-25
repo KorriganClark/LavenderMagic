@@ -23,7 +23,7 @@ namespace Lavender
             {
                 if (root == null)
                 {
-                    root = new GameObject();
+                    root = new GameObject(Name);
                 }
                 return root;
             }
@@ -40,7 +40,7 @@ namespace Lavender
         /// </summary>
         public virtual void InitParams()
         {
-
+            
         }
 
         public virtual void OnInit()

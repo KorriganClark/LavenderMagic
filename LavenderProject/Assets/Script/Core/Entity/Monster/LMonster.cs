@@ -9,7 +9,6 @@ namespace Lavender
 {
     public class LMonster : LEntity
     {
-        public LMonsterConfig Config { get; set; }
 
         public RootStateMachine StateMachine { get; set; }
         public override void InitParams()
@@ -20,14 +19,9 @@ namespace Lavender
                 typeof(LAnimComponent),
                 typeof(LAttrComponent),
                 typeof(LBattleComponent),
+                typeof(LMonsterShowInfoComponent)
             };
-
-            Config = config as LMonsterConfig;
-            if (Config == null)
-            {
-                throw new Exception("No config!");
-            }
-
+            Name = Config.EntityName;
             Model = GameObject.Instantiate(Config.Model);
             Model.transform.SetParent(Root.transform);
             Model.transform.localPosition = Vector3.zero;
@@ -36,6 +30,12 @@ namespace Lavender
         {
             StateMachine = new RootStateMachine();
             StateMachine.Start(this);
+        }
+
+        public override void Update(float delta)
+        {
+            base.Update(delta);
+            StateMachine.Update(delta);
         }
     }
 

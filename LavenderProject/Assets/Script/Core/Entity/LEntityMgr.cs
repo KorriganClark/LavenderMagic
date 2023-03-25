@@ -13,10 +13,10 @@ namespace Lavender
 
         public List<LEntity> entityList = new List<LEntity>();
 
-        public LEntity CreateEntity<T>(ScriptableObject config = null) where T : LEntity, new()
+        public LEntity CreateEntity<T>(LEntityConfig config = null) where T : LEntity, new()
         {
            var entity = new T();
-            entity.config = config;
+            entity.Config = config;
             entityList.Add(entity);
             entity.Init();
             return entity;

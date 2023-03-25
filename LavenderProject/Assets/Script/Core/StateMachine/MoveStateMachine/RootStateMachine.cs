@@ -153,7 +153,6 @@ namespace Lavender
         public override void Enter()
         {
             base.Enter();
-            AttrComponent.SetAttr(EAttrType.JumpRequest, 0);
             MoveComponent.Jump();
             AnimComponent.PlayAnim(AnimType.Jump);
 

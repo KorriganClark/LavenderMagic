@@ -38,7 +38,7 @@ namespace Lavender
 
         #region Skill
 
-        public void InitSkillConfig(LCharacterConfig config)
+        public void InitSkillConfig(LEntityConfig config)
         {
             skills[ESkillKey.NormalAttack] = new LSkill(Entity, config.NormalAttack);
         }

@@ -5,7 +5,7 @@ namespace Lavender
     public class MonsterCreater : LSingleton<MonsterCreater>
     {
         public LMonster TestMonster { get; set; }
-        public LMonsterConfig Config { get; set; }
+        public LEntityConfig Config { get; set; }
         public Vector3 defaultPos { get; set; }
         public void Update(float delta)
         {

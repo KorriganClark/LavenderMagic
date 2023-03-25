@@ -15,6 +15,7 @@ namespace Lavender
     public class LSkillEffect : ScriptableObject
     {
         public float StartTime, EndTime;
+        public bool ShouldTick;
         public float Duration { get { return EndTime - StartTime; } }
 
         public List<LEntity> Targets = new List<LEntity>();

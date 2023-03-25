@@ -10,13 +10,17 @@ namespace Lavender
 {
     public class LEntity : LGameObject
     {
-        public ScriptableObject config;
+        public LEntityConfig Config;
         public GameObject Model
         {
             get;set;
         }
 
         public Vector3 Position { get { return Root.transform.position; } }
+        public override void InitParams()
+        {
+            base.InitParams();
 
+        }
     }
 }

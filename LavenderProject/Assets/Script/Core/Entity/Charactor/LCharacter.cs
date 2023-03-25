@@ -10,8 +10,6 @@ namespace Lavender
 {
     public class LCharacter : LEntity
     {
-        public LCharacterConfig Config { get; set; }
-
         public override void InitParams()
         {
             ComponentTypes = new List<Type> 
@@ -21,13 +19,7 @@ namespace Lavender
                 typeof(LAttrComponent),
                 typeof(LBattleComponent),
             };
-
-            Config = config as LCharacterConfig;
-            if(Config == null)
-            {
-                throw new Exception("No config!");
-            }
-            
+            Name = Config.EntityName;
             Model = GameObject.Instantiate(Config.Model);
             Model.transform.SetParent(Root.transform);
             Model.transform.localPosition = Vector3.zero;

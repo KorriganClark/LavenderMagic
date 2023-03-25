@@ -24,6 +24,7 @@ namespace Lavender
         {
             var instance = new LSkillInstance();
             instance.Skill = this;
+            instance.Init();
             return instance;
         }
     }

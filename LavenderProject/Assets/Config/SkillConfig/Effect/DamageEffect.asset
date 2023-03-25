@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1c823f5913efb4e80d6a365affe3d7, type: 3}
   m_Name: DamageEffect
   m_EditorClassIdentifier: 
-  StartTime: 1
-  EndTime: 1.5
+  StartTime: 0
+  EndTime: 0.5
+  ShouldTick: 0
   Damage: 10
   Radius: 5
