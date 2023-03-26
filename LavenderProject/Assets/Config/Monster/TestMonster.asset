@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f830e0d169aa740a75016e4a9900c2, type: 3}
   m_Name: TestMonster
   m_EditorClassIdentifier: 
+  entityName: TestMonster
   speed: 5
   jumpAbility: 1
   attack: 1

@@ -1,67 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Lavender
 {
+    // LEntityConfig 实体配置类，用于存储实体的基本属性和特征，继承自 ScriptableObject
     [Serializable]
-    [CreateAssetMenu(menuName = "Lavender/LMonster")]
     public class LEntityConfig : ScriptableObject
     {
-        [SerializeField]
-        private string entityName;
-        [SerializeField]
-        private float speed = 5, jumpAbility = 1;
-        [SerializeField]
-        private int attack = 1, hp = 100, mp = 100;
-        [SerializeField]
-        private GameObject model;
-        [SerializeField]
-        private LAnimConfig animConfig;
-        [SerializeField]
-        private LSkillConfig normalAttack;
+        // 实体名称
+        [SerializeField] private string entityName;
+        // 移动速度、跳跃高度
+        [SerializeField] private float speed = 5f, jumpAbility = 1f;
+        // 攻击力、生命值、法力值
+        [SerializeField] private int attack = 1, hp = 100, mp = 100;
+        // 实体模型、动画配置、普通攻击技能配置
+        [SerializeField] private GameObject model;
+        [SerializeField] private LAnimConfig animConfig;
+        [SerializeField] private LSkillConfig normalAttack;
 
-        public string EntityName { get { return entityName; } }
-        public GameObject Model { get { return model; } }
-        public LAnimConfig AnimConfig { get { return animConfig; } }
-        public LSkillConfig NormalAttack { get { return normalAttack; } }
-        public float Speed
-        {
-            get
-            {
-                return speed;
-            }
-        }
-        public float JumpHigh
-        {
-            get
-            {
-                return jumpAbility;
-            }
-        }
-        public int Attack
-        {
-            get
-            {
-                return attack;
-            }
-        }
-        public int HP
-        {
-            get
-            {
-                return hp;
-            }
-        }
-        public int MP
-        {
-            get
-            {
-                return mp;
-            }
-        }
+        // 属性访问器，用于获取实体配置的各项属性
+        public string EntityName => entityName;
+        public GameObject Model => model;
+        public LAnimConfig AnimConfig => animConfig;
+        public LSkillConfig NormalAttack => normalAttack;
+        public float Speed => speed;
+        public float JumpHigh => jumpAbility;
+        public int Attack => attack;
+        public int HP => hp;
+        public int MP => mp;
+
+        // 判断是否存在实体模型
+        public bool HasModel() => model != null;
+
+        // 判断是否存在动画配置
+        public bool HasAnimConfig() => animConfig != null;
     }
 }

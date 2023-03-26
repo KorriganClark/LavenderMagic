@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532da23c2f76d2c49a0fd2c06660827c, type: 3}
   m_Name: KeQing
   m_EditorClassIdentifier: 
+  entityName: "\u523B\u6674"
   speed: 5
   jumpAbility: 5
   attack: 1
