@@ -10,15 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ebde810ea19bd74ca7d8a4e24321b07, type: 3}
-  m_Name: KeqingAnimConfig
+  m_Name: KeQingMongterAnimConfig
   m_EditorClassIdentifier: 
   AnimationClips:
   - type: 0
-    animationClip: {fileID: 7400000, guid: 4f9b2cc802bffcd468bf59be5599a8d1, type: 3}
+    animationClip: {fileID: 0}
   - type: 1
-    animationClip: {fileID: 7400000, guid: 6e950ce0deb6c22419d4f264e8441f3b, type: 3}
+    animationClip: {fileID: 0}
+  - type: 2
+    animationClip: {fileID: 0}
   - type: 3
-    animationClip: {fileID: 7400000, guid: 583df2234e2d1194689d9b5b62d3154c, type: 3}
+    animationClip: {fileID: 0}
+  - type: 4
+    animationClip: {fileID: 0}
   - type: 5
     animationClip: {fileID: -203655887218126122, guid: 353f634e35ff5d748a79a136b7e81192,
       type: 3}

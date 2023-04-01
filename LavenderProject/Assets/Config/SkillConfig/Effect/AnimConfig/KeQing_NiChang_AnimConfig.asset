@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ebde810ea19bd74ca7d8a4e24321b07, type: 3}
+  m_Name: KeQing_NiChang_AnimConfig
+  m_EditorClassIdentifier: 
+  AnimationClips:
+  - type: 1
+    animationClip: {fileID: 7400000, guid: 84a3d912c71013b43b6d97f2f0386f04, type: 2}
+  - type: 2
+    animationClip: {fileID: 7400000, guid: 758b9f061558363409bbd0f3c8af5807, type: 2}
+  - type: 3
+    animationClip: {fileID: 7400000, guid: bb3e38ea19d7131479e469ccd539a6a1, type: 2}
+  - type: 4
+    animationClip: {fileID: 7400000, guid: 818bd75984c1b9b498f13d8bad0f3408, type: 2}
+  - type: 5
+    animationClip: {fileID: 7400000, guid: 17123fe7885dac042892998ef7138860, type: 2}
+  - type: 0
+    animationClip: {fileID: 7400000, guid: e3fe34e8703b8a448ae3614ca4e35ca9, type: 2}
