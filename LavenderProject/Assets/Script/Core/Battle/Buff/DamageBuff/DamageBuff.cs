@@ -6,24 +6,31 @@ using System.Threading.Tasks;
 
 namespace Lavender
 {
-    public class NormalDamageBuff : LBuff
+    /*
+    /// <summary>
+    /// 即时伤害类型buff
+    /// </summary>
+    
+    public class DamageBuff : LBuff
     {
-        public override List<BuffType> BuffTypes { get { return new List<BuffType>{BuffType.Damage}; } }
         public override bool ApplyOnAttach { get { return true; } }
         public override bool RemoveAfterApply { get { return true; } }
 
         public int Damage { get; set; }
 
-        public NormalDamageBuff(int damage) 
+        public override BuffType TypeOfBuff => BuffType.Damage;
+
+        public EElementType DamageElementType;
+
+        public DamageBuff(int damage)
         {
             Damage = damage;
         }
 
-        public override int DamageVal()
+        public int DamageVal()
         {
-            base.DamageVal();
             return Damage;
         }
 
-    }
+    }*/
 }

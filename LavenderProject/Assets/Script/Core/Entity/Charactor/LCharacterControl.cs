@@ -101,7 +101,7 @@ namespace Lavender
         public void TowardsUpdate(float verticalInput, float horizontalInput)
         {
             Vector3 cameraToward = Entity.GetComponent<ThirdPersonCameraComponent>().CameraTrans.forward; // 获取摄像机的朝向
-            cameraToward.y = 0; // 将摄像机的垂直方向设为 0
+            cameraToward.y = 0; // 将垂直方向设为 0
             var res = new Vector3(verticalInput * cameraToward.x + horizontalInput * cameraToward.z, 0,
                                   verticalInput * cameraToward.z - horizontalInput * cameraToward.x); // 根据输入计算出新的朝向
             Quaternion targetRotation = Quaternion.LookRotation(res.normalized, Vector3.up); // 计算出目标旋转角度

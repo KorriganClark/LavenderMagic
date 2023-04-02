@@ -13,12 +13,19 @@ namespace Lavender
         None,
         HP,
         MP,
+        MaxHP,
         MoveSpeed,
         JumpAbility,
         Attack,
         CanMove,
         CurrentMoveSpeed,
-        MaxHP,
+        PyroAmount,   // 火
+        HydroAmount,  // 水
+        AnemoAmount,  // 风
+        ElectroAmount, // 雷
+        DendroAmount, // 草
+        CryoAmount,   // 冰
+        GeoAmount,    // 岩
     }
 
     //实体移动组件

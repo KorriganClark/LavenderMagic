@@ -14,22 +14,30 @@ namespace Lavender
     [CreateAssetMenu(menuName = "Lavender/NormalDamage")]
     public class NormalDamageEffect : LSkillEffect
     {
-        public int Damage;
+        public float DamageRate;
         public float Radius;
 
         public override void GetTargets()
         {
-            var list = LEntityMgr.Instance.GetEntitysByPos(Owner.Position, Radius);
-            list.Remove(Owner);
-            Targets = list;
+            Targets = LEntityMgr.Instance.GetEntitysByPos(Owner.Position, Radius, Owner).ToList();
         }
 
         public override void OnStart()
         {
             foreach (var target in Targets)
             {
-                var buff = new NormalDamageBuff(Damage);
-                BattleCom.RequestAddBuffToOther(buff, target);
+                var request = new DamageRequest();
+                request.Owner = Owner;
+                request.Target = target;
+                request.DamageRate = new Dictionary<EAttrType, float>
+                {
+                    { EAttrType.Attack, DamageRate }
+                };
+                DamageProcessor.Instance.ProcessDamageRequest(request);
+                /*
+                var buff = new DamageBuff(Damage);
+
+                BattleCom.RequestAddBuffToOther(buff, target);*/
             }
         }
     }

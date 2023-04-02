@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Lavender
@@ -11,48 +7,74 @@ namespace Lavender
     {
         public LEntityMgr() { }
 
-        public List<LEntity> entityList = new List<LEntity>();
+        // 存储实体的列表
+        private List<LEntity> entityList = new List<LEntity>();
 
+        // 创建实体的泛型方法
         public LEntity CreateEntity<T>(LEntityConfig config = null) where T : LEntity, new()
         {
-            var entity = new T();
-            entity.Config = config;
+            var entity = new T
+            {
+                Config = config
+            };
             entityList.Add(entity);
             entity.Init();
             return entity;
         }
 
+        // 销毁实体
         public void DestroyEntity(LEntity entity)
         {
             entityList.Remove(entity);
             entity.UnInit();
-            //临时
-            if(MonsterCreater.Instance.TestMonster == entity)
+            if (MonsterCreater.Instance.TestMonster == entity)
             {
                 MonsterCreater.Instance.TestMonster = null;
             }
         }
 
+        // 更新实体
         public void Update(float delta)
         {
-            for(int i = 0;i < entityList.Count;i++)
+            int entityListCount = entityList.Count;
+            for (int i = 0; i < entityListCount; i++)
             {
                 entityList[i].Update(delta);
             }
         }
 
-        public List<LEntity> GetEntitysByPos(Vector3 centerPosition, float radius)
+        // 根据位置和半径获取实体列表
+        // 使用迭代器方法遍历符合条件的实体
+        public IEnumerable<LEntity> GetEntitysByPos(Vector3 centerPosition, float radius)
         {
-            List<LEntity> res = new List<LEntity>();
-            foreach(var entity in entityList)
+            int entityListCount = entityList.Count;
+            for (int i = 0; i < entityListCount; i++)
             {
-                var pos = entity.Root.transform.position;
+                var pos = entityList[i].Root.transform.position;
                 if (Vector3.Distance(pos, centerPosition) <= radius)
                 {
-                    res.Add(entity);
+                    yield return entityList[i];
                 }
             }
-            return res;
         }
+        // 使用迭代器方法遍历符合条件的实体，同时排除指定的实体
+        public IEnumerable<LEntity> GetEntitysByPos(Vector3 centerPosition, float radius, LEntity excludeEntity)
+        {
+            int entityListCount = entityList.Count;
+            for (int i = 0; i < entityListCount; i++)
+            {
+                if (entityList[i] == excludeEntity)
+                {
+                    continue;
+                }
+
+                var pos = entityList[i].Root.transform.position;
+                if (Vector3.Distance(pos, centerPosition) <= radius)
+                {
+                    yield return entityList[i];
+                }
+            }
+        }
+
     }
 }

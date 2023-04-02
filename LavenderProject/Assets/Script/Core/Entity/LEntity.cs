@@ -26,6 +26,19 @@ namespace Lavender
 
         public Vector3 Forward => rotation * Vector3.forward; // 实体当前的前方向量
 
+        private LAttrComponent attrComponent;
+        public LAttrComponent AttrComponent
+        {
+            get 
+            {
+                if (attrComponent == null)
+                {
+                    attrComponent = GetComponent<LAttrComponent>();
+                }
+                return attrComponent;
+            }
+        }
+
         /// <summary>
         /// 初始化实体参数
         /// </summary>
