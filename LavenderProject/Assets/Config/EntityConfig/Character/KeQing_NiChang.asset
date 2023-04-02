@@ -15,7 +15,7 @@ MonoBehaviour:
   entityName: KeQing_NiChang
   speed: 5
   jumpAbility: 5
-  attack: 1
+  attack: 100
   hp: 100
   mp: 100
   model: {fileID: 919132149155446097, guid: 8be93533290b7224bbc515533851caa4, type: 3}

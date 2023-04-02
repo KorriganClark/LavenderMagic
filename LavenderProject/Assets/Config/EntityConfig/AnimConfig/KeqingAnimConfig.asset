@@ -20,5 +20,4 @@ MonoBehaviour:
   - type: 3
     animationClip: {fileID: 7400000, guid: 583df2234e2d1194689d9b5b62d3154c, type: 3}
   - type: 5
-    animationClip: {fileID: -203655887218126122, guid: 353f634e35ff5d748a79a136b7e81192,
-      type: 3}
+    animationClip: {fileID: 7400000, guid: 180a0206f951cdc4a9e2afdd16c96c6c, type: 3}

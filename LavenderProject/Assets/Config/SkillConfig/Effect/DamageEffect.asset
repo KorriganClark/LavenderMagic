@@ -15,5 +15,5 @@ MonoBehaviour:
   StartTime: 0
   EndTime: 0.5
   ShouldTick: 0
-  Damage: 10
+  DamageRate: 20
   Radius: 5
