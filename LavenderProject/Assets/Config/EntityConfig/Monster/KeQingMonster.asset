@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad14517fbb1d03c4ca46747e8ce87dcb, type: 3}
+  m_Name: KeQingMonster
+  m_EditorClassIdentifier: 
+  entityName: KeQingMonster
+  speed: 5
+  jumpAbility: 1
+  attack: 1
+  hp: 100
+  mp: 100
+  model: {fileID: 7089710837750381642, guid: e8be8ea4b9e585147b7ff15da3a07cb2, type: 3}
+  animConfig: {fileID: 11400000, guid: 6550ca94de9acf84680d2f14fea341d0, type: 2}
+  normalAttack: {fileID: 11400000, guid: 1cdb12cd2a38019458aa90adc7897c5e, type: 2}
