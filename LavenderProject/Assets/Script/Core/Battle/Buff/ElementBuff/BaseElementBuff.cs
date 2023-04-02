@@ -21,7 +21,7 @@
         public override BuffType TypeOfBuff => BuffType.Element;
         public override bool ApplyOnAttach => true;
         public abstract EElementType ElementType { get ; }
-        public EAttrType[] ElementAmontType = new EAttrType[7] 
+        public static EAttrType[] ElementAmountType = new EAttrType[7] 
         { 
             EAttrType.PyroAmount,
             EAttrType.HydroAmount,
@@ -35,11 +35,11 @@
         {
             get
             {
-                return Entity.AttrComponent.GetAttr(ElementAmontType[(int)(ElementType - 1)]);
+                return Entity.AttrComponent.GetAttr(ElementAmountType[(int)(ElementType - 1)]);
             }
             set
             {
-                Entity.AttrComponent.SetAttr(ElementAmontType[(int)(ElementType - 1)], value);
+                Entity.AttrComponent.SetAttr(ElementAmountType[(int)(ElementType - 1)], value);
             }
         }
     }

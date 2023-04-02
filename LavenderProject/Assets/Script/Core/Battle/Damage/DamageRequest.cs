@@ -11,5 +11,7 @@ namespace Lavender
         public LEntity Owner;
         public LEntity Target;
         public Dictionary<EAttrType, float> DamageRate;//技能倍率，根据不同属性决定,单位为百分比
+        public EElementType ElementType;
+        public bool IsPhysics;
     }
 }

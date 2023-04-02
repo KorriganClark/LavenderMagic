@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
+﻿
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +14,7 @@ namespace Lavender
         public static GameObject PanelAsset;
         public GameObject Panel { get; set; }
         public LAttrComponent AttrComponent { get { return Monster.GetComponent<LAttrComponent>(); } }
+        public Camera mainCamera;
         public float BloodValue 
         {
             get
@@ -34,23 +29,25 @@ namespace Lavender
         public override void OnAttach(LGameObject go)
         {
             base.OnAttach(go);
+            mainCamera = LCharacterControl.Instance.Character.GetComponent<ThirdPersonCameraComponent>().Camera;
             if (PanelAsset == null )
             {
                 PanelAsset = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Artres/Prefabs/Hud/MonsterInfoPanel.prefab");
             }
             Panel = GameObject.Instantiate(PanelAsset);
             Panel.transform.SetParent(Monster.Root.transform);
-            Panel.transform.localPosition = Vector3.zero;
+            Panel.transform.localPosition = new Vector3(0, 1.62f, 0);
             bloodImage = Panel.transform.Find("Canvas/Blood").GetComponent<Image>();
         }
 
         public override void Update(float delta)
         {
             base.Update(delta);
-            if(Panel == null )
+            if(Panel == null || mainCamera == null)
             {
                 return;
             }
+            Panel.transform.LookAt(Panel.transform.position + mainCamera.transform.rotation * Vector3.forward, mainCamera.transform.rotation * Vector3.up);
             if (AttrComponent.GetAttr(EAttrType.MaxHP)<= 0)
             {
                 return;
